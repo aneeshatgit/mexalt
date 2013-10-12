@@ -1,0 +1,31 @@
+div(ng-controller="simController" class="col-lg-12")
+	div
+		form(role="form" class="form-horizontal")
+			div(class="form-group")
+				label Simulation Interval: 
+				&nbsp;
+				&nbsp;
+				label(ng-class="{hidden: editMode}") {{simulationInterval}}
+				input(type='text' ng-model='simulationInterval' ng-class="{hidden: !editMode}")
+				&nbsp;
+				{{errors}}
+				&nbsp; secs 
+				&nbsp;
+				span(class="glyphicon glyphicon-edit" ng-click="editSimSettings($event)")
+				&nbsp;
+				span(class="glyphicon glyphicon-floppy-disk" ng-click="saveSimSettings($event)")
+				br
+				button(type="button" class="btn btn-danger" data-toggle="button" ng-click="setSimulationState($event)") {{simulationStateText}}
+
+
+	div
+		label Simulation Log:	
+		br
+		textarea(readonly adjust-scroll rows="20" ng-model="simulationLogText" class="col-lg-12 log-text") 
+		br
+		br
+		button(type="button" class="btn btn-primary" ng-click="simulationLogText=''") Clear Log
+		//input(type='text' class="col-lg-12" ng-model="simulationLogText") 
+
+
+
