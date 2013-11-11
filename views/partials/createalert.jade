@@ -1,0 +1,109 @@
+div
+	div(class="col-lg-4")
+		br
+		br
+		form(role="form" class="form-horizontal col-lg-12")
+			div(class="form-group")
+				label Event Name: 
+				&nbsp;
+				&nbsp;
+				input(type='text' ng-model='alertName')
+				&nbsp;
+				button(type="button" class="btn btn-primary" ng-click="addAlert($event); alertName='';") Create Event
+		div(class="col-lg-12")
+			table(class="table table-hover")
+				thead
+					//th Event ID
+					th Event Name
+					th
+				tbody
+					tr(ng-if="alertsArr=={}") 
+						td No alerts found.
+					tr(ng-repeat="(key, alert) in alertsArr" ng-click="selectAlert(key, alert.name, $event)" ng-class="{warning: selectedRows.indexOf(key)>-1}")
+						//td {{key}}
+						td {{alert.name}}
+						td
+							span(class="glyphicon glyphicon-minus-sign" ng-click="deleteAlert(key, $event)")
+	div(class="col-lg-8" ng-class="{hidden: (selectedRows.length==0)}")
+		h4 {{selectedRows[1]}} &nbsp;
+			small ID: {{selectedRows[0]}}
+
+		ul.nav.nav-tabs
+			li(ng-click="tabClick('map', $event)" ng-class="{active: visibleTab=='map'}") 
+				a Alert Region
+			li(ng-click="tabClick('sms', $event)" ng-class="{active: visibleTab=='sms'}") 
+				a Message Content
+			li(ng-click="tabClick('status', $event)" ng-class="{active: visibleTab=='status'}") 
+				a Status
+		div(ng-class="{hidden: !(visibleTab=='map')}")
+			br
+			div
+				div(hello-maps="" latitude="12.967084" longitude="77.581129" class="google-map" ng-click="showCoordinates($event)" zoom="10")
+				div.button-overlay
+					button(type="button" class="btn btn-primary" ng-click="toggleDrawing($event)" ng-class="{disabled: doneDrawingVal}") {{drawText}}
+					&nbsp;
+					button(type="button" class="btn btn-primary" ng-click="doneDrawing($event)" ng-class="{disabled: (polyArr.length<3)}") {{doneDrawText}}
+			div(class='row')
+				p(class='col-lg-4') Current Drawing mode: 
+					label(ng-if="!enableDraw") Disabled 
+					label(ng-if="enableDraw") Enabled 
+				p(class='col-lg-4') Current Lock mode: 
+					label(ng-if="!doneDrawingVal") Unlocked 
+					label(ng-if="doneDrawingVal") Locked 
+
+		div(ng-class="{hidden: !(visibleTab=='sms')}")
+			br
+			div.col-lg-12.sms-content
+				label.col-lg-2 Default: 
+				textarea.col-lg-9(ng-model="smsContent.Default" placeholder="Type alert message here...")
+			div.col-lg-12.sms-content
+				label.col-lg-2 English: 
+				textarea.col-lg-9(ng-model="smsContent.EN" placeholder="Type english alert message here...")
+			div.col-lg-12.sms-content
+				label.col-lg-2 French: 
+				textarea.col-lg-9(ng-model="smsContent.FR" placeholder="Type french alert message here...")
+			div.col-lg-12.sms-content
+				label.col-lg-2 German: 
+				textarea.col-lg-9(ng-model="smsContent.DE" placeholder="Type german alert message here...")
+			div.col-lg-12.sms-content
+				label.col-lg-2 Norwegian: 
+				textarea.col-lg-9(ng-model="smsContent.NO" placeholder="Type norwegian alert message here...")
+			div.col-lg-12.sms-content
+				label.col-lg-2 Swedish: 
+				textarea.col-lg-9(ng-model="smsContent.SE" placeholder="Type swedish alert message here...")
+
+		div(ng-class="{hidden: !(visibleTab=='status')}")
+			br
+			div.panel-group(id="accordion" accordion-control)
+				div.panel.panel-default(ng-repeat="item in statusList | reverse")
+					div.panel-heading
+						h4.panel-title
+							a.accordion-toggle(data-toggle="collapse" data-parent="#accordion" collapse-click="link{{$index}}")
+								{{item.title}}
+					div.panel-collapse.collapse.in(id="link{{$index}}")
+						div.panel-body(html-text="{{$index}}")
+							
+
+		div.button-div-padding
+			button(type="button" class="btn btn-success" ng-click="saveAlert($event)") Save Alert
+			&nbsp;
+			button(type="button" class="btn btn-danger" ng-click="sendAlert($event)" ng-class="{disabled: alertSendButtonDisabled}") Send Alert
+
+	
+	div(class="modal fade" id="savedMessage" aria-hidden="true" modal-show-trigger)
+		div(class="modal-dialog")
+			div(class="modal-content")
+				div(class="modal-body")
+					<p>{{modalMessage}}</p>
+				div(class="modal-footer")
+					button(type="button" class="btn btn-info" data-dismiss="modal" ng-click="showModal=false") OK
+
+
+	div.modal.fade(id="savedMessage" aria-hidden="true" please-wait style="margin-top: 200px")
+		div.modal-dialog
+			div.modal-content
+				div.modal-header
+					h3(align="center") Please wait...
+				div.modal-body
+					div.progress.progress-striped.active
+						div.progress-bar(role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%")

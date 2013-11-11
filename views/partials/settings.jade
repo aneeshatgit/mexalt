@@ -1,0 +1,68 @@
+div.div-mar-pad.row
+	div(class="col-lg-8")
+		h4 Define Geographical Scope 
+			span.glyphicon.glyphicon-question-sign(tooltip-control="This will be the boundary within which alerts can be sent.")
+		div(hello-maps="" latitude="12.967084" longitude="77.581129" class="google-map" zoom="8")
+		br
+		div(class='row')
+			p(class='col-lg-4') Current Drawing mode: 
+				label(ng-if="!enableDraw") Disabled 
+				label(ng-if="enableDraw") Enabled 
+			p(class='col-lg-4') Current Lock mode: 
+				label(ng-if="!doneDrawingVal") Unlocked 
+				label(ng-if="doneDrawingVal") Locked 
+		br
+		button(type="button" class="btn btn-primary" ng-click="toggleDrawing($event)" ng-class="{disabled: doneDrawingVal, hidden: mapDataLoaded}" tooltip-control="This button will enable or disable drawing on the map. Ensure the map is in Enabled Mode to start drawing.") {{drawText}}
+		&nbsp;
+		button(type="button" class="btn btn-primary" ng-click="doneDrawing($event)" ng-class="{disabled: !validPolygon, hidden: mapDataLoaded}" tooltip-control="This button shall be used to lock or unlock the polygon. This is disabled till a valid polygon is drawn on the map.") {{doneDrawText}}
+		&nbsp;
+		button(type="button" class="btn btn-primary"  ng-click="clearMap($event)" ng-class="{disabled: doneDrawingVal, hidden: mapDataLoaded}" tooltip-control="This button will clear the existing drawings on the map.") Clear Drawing
+		&nbsp;
+		button(type="button" class="btn btn-success" ng-click="saveBoundsAndTowers($event)" ng-class="{disabled: !doneDrawingVal, hidden: mapDataLoaded}" tooltip-control="Once your boundary is ready click this button to save the bounds and generate cell site data.") Create Bounds & Tower Data
+		button(type="button" class="btn btn-success" ng-click="editBounds($event)" ng-class="{hidden: !mapDataLoaded}" tooltip-control="This will clear existing bounds and cell sites. New bounds will be need to be defined. Cell sites will be generated based on the bounds definition.") Edit Bounds & Tower Data
+	div(class="col-lg-4")
+		h4 MSISDN Range &nbsp;
+			span.glyphicon.glyphicon-question-sign(tooltip-control="The mock numbers will be all integers between the MSISDN From number and MSISDN To number.")
+		form(role="form" class="form-horizontal")
+			div(class="form-group")
+				p(class="col-lg-4") MSISDN From: 
+				label(class="col-lg-5" ng-class="{hidden: !msisdnRangeLoaded}") {{msisdnStart}}				
+				input(type='text' class="col-lg-5" placeholder='Number series start' size="25" ng-model='msisdnStart' ng-class="{hidden: msisdnRangeLoaded}")
+			div(class="form-group")
+				p(class="col-lg-4") MSISDN To: 
+				label(class="col-lg-5" ng-class="{hidden: !msisdnRangeLoaded}") {{msisdnEnd}}				
+				input(type='text' class="col-lg-5" placeholder='Number series end' size="25" ng-model='msisdnEnd' ng-class="{hidden: msisdnRangeLoaded}")
+			button(type="button" class="btn btn-primary" ng-click="submitNumberSeries($event)" ng-class="{hidden: msisdnRangeLoaded}") Save Subscriber Range
+			button(type="button" class="btn btn-primary" ng-click="editNumberSeries($event)" ng-class="{hidden: !msisdnRangeLoaded}") Edit Subscriber Range
+		br
+		br
+		div
+			ul(ng-class="{hidden: !(subErrors.length>0)}") Errors:
+				li(ng-repeat = 'i in subErrors') {{i}}
+		div
+			h4 Map Center &nbsp;
+				span.glyphicon.glyphicon-question-sign(tooltip-control="This setting allows to set default center of the maps in this application.")
+			form(role="form" class="form-horizontal")
+				div(class="form-group")
+					p(class="col-lg-3") Latitude:
+					label(class="col-lg-5" ng-class="{hidden: !centerLoaded}") {{centerLat}}				
+					input(type='text' class="col-lg-6" placeholder='Map Center Latitude' size="25" ng-model='centerLat' ng-class="{hidden: centerLoaded}")
+				div(class="form-group")
+					p(class="col-lg-3") Longitude:
+					label(class="col-lg-5" ng-class="{hidden: !centerLoaded}") {{centerLng}}				
+					input(type='text' class="col-lg-6" placeholder='Map Center Longitude' size="25" ng-model='centerLng' ng-class="{hidden: centerLoaded}")
+				button(type="button" class="btn btn-primary" ng-click="submitMapCenter($event)" ng-class="{hidden: centerLoaded}") Save Map Center
+				button(type="button" class="btn btn-primary" ng-click="editMapCenter($event)" ng-class="{hidden: !centerLoaded}") Edit Map Center
+		div
+			ul(ng-class="{hidden: !(centerErrors.length>0)}") Errors:
+				li(ng-repeat = 'c in centerErrors') {{c}}
+
+
+	div.modal.fade(id="savedMessage" aria-hidden="true" please-wait style="margin-top: 200px")
+		div.modal-dialog
+			div.modal-content
+				div.modal-header
+					h3(align="center") Please wait...
+				div.modal-body
+					div.progress.progress-striped.active
+						div.progress-bar(role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%")

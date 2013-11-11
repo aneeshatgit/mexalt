@@ -1,23 +1,42 @@
 extends layout
 
 block body
-  div(ng-controller='AppCtrl')
-    h2 Hello {{name}}
-    ul.menu
-      li
-        a(href='view1') view1
-      li
-        a(href='view2') view2
+  div(class="div-mar-pad")
+    div.navbar.navbar-inverse.navbar-fixed-top
+      ul.nav.navbar-nav(nav-pills-activation role='navigation')
+        li
+          a.navbar-brand LBAC
+        li
+          a(href='cd') Create Data 
+        li
+          a(href='am') Alert Manager 
+        li
+          a(href='pm') Profile Manager 
+        li
+          a(href='vam') SMS Viewer 
+        li
+          a(href='im') Incident Monitor
+        li
+          a(href='sim') Simulator
 
     div(ng-view)
 
-    div
-      | Angular seed app: v
-      span(app-version)
 
+  link(rel="stylesheet" type="text/css" href="js/lib/bootstrap/css/bootstrap.min.css")
+  link(rel="stylesheet" type="text/css" href="js/lib/bootstrap/css/bootstrap-theme.min.css")
+
+  script(src='js/lib/jquery/jquery.min.js')
+  script(src='js/lib/bootstrap/js/bootstrap.min.js')
   script(src='js/lib/angular/angular.js')
   script(src='js/app.js')
   script(src='js/services.js')
   script(src='js/controllers.js')
   script(src='js/filters.js')
+  script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyALAr7pbufdMA4uszXc0PhWwPL-B1OS4gU&sensor=false')
+  script(src="http://maps.googleapis.com/maps/api/js?libraries=geometry&sensor=false")
+  script(src="js/lib/googlemap/markerwithlabel.js")
+  script(src="js/lib/googlemap/oms.min.js")
   script(src='js/directives.js')
+  script(src='js/lib/firebase/firebase.min.js')
+  script(src='js/lib/firebase/angularfire.min.js')
+

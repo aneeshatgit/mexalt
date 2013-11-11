@@ -1,0 +1,44 @@
+div
+	div(id='infoDiv' style="display:none" info-control)
+		div
+			small Id: {{infoIncId}}
+			p 
+				h3 {{infoIncSummary}}
+			p {{infoIncDescription}}
+			b Reporter: 
+			p {{infoIncName}} (Phone: {{infoIncPhone}}, Email: 
+				a(href="mailto:{{infoIncEmail}}") {{infoIncEmail}})
+			b Report Time: 
+			p {{infoIncReportTime}}
+			b Incident Range: 
+			p {{infoIncRange}}
+			span(ng-if="infoImg1!=undefined" style='margin:5px')
+				a(href="{{infoImg1}}", target='_blank')
+					img.imgDiv(src='{{infoImg1}}' width='75px' height='75px' tooltip-control="<img src='{{infoImg1}}' width='300px' height='250px'>" tooltip-html=true tooltip-pos='right')
+			span(ng-if="infoImg2!=undefined" style='margin:5px')
+				a(href="{{infoImg2}}", target='_blank')
+					img.imgDiv(src='{{infoImg2}}' width='75px' height='75px' tooltip-control="<img src='{{infoImg2}}' width='300px' height='250px'>" tooltip-html=true tooltip-pos='right')
+			span(ng-if="infoImg3!=undefined" style='margin:5px')
+				a(href="{{infoImg3}}", target='_blank')
+					img.imgDiv(src='{{infoImg3}}' width='75px' height='75px' tooltip-control="<img src='{{infoImg3}}' width='300px' height='250px'>" tooltip-html=true tooltip-pos='right')
+			br
+			p 
+				b Status: 
+				select(ng-options="c.val as c.val for c in incStatusValues" ng-model="incStatus" ng-change="changeStatus(infoIncId, incStatus)") 
+			a(ng-click="createAlert($event, infoIncId)") Create Event for Alert
+
+	div
+		b Filters: &nbsp;
+		input(type='checkbox' ng-model='allVisible') 
+		|  All &nbsp;
+		input(type='checkbox' ng-model='newVisible') 
+		|  New &nbsp;
+		input(type='checkbox' ng-model='verifyingVisible') 
+		|  Verifying &nbsp;
+		input(type='checkbox' ng-model='alertedVisible') 
+		|  Alerted &nbsp;
+		input(type='checkbox' ng-model='archivedVisible') 
+		|  Archived &nbsp;
+		
+	div(hello-maps="" latitude="12.967084" longitude="77.581129" class="inc-map" zoom="8")
+

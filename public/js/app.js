@@ -6,20 +6,41 @@ angular.module('myApp', [
   'myApp.controllers',
   'myApp.filters',
   'myApp.services',
-  'myApp.directives'
+  'myApp.directives',
+  'firebase'
 ]).
 config(function ($routeProvider, $locationProvider) {
   $routeProvider.
-    when('/view1', {
-      templateUrl: 'partials/partial1',
-      controller: 'MyCtrl1'
+    when('/am', {
+      templateUrl: 'partials/createalert',
+      controller: 'amController'
     }).
-    when('/view2', {
-      templateUrl: 'partials/partial2',
-      controller: 'MyCtrl2'
+    when('/am/:id/:name', {
+      templateUrl: 'partials/createalert',
+      controller: 'amController'
+    }).
+    when('/cd', {
+      templateUrl: 'partials/settings',
+      controller: 'cdController'
+    }).
+    when('/vam', {
+      templateUrl: 'partials/viewalert',
+      controller: 'vamController'
+    }).
+    when('/sim', {
+      templateUrl: 'partials/simulate',
+      controller: 'simController'
+    }).
+    when('/pm', {
+      templateUrl: 'partials/profiler',
+      controller: 'pmController'
+    }).
+    when('/im', {
+      templateUrl: 'partials/incmonitor',
+      controller: 'imController'
     }).
     otherwise({
-      redirectTo: '/view1'
+      redirectTo: '/am'
     });
 
   $locationProvider.html5Mode(true);

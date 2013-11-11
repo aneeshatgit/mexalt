@@ -1,0 +1,65 @@
+div.row
+	form.form-horizontal.col-lg-3(role="form")
+		div.form-group
+			label MSISDN: 
+			&nbsp;
+			&nbsp;
+			input(type='text' ng-model='msisdn')
+			&nbsp;
+			br
+			br
+			button(type="button" class="btn btn-primary" ng-click="getProfile($event)") Get Profile
+	div.col-lg-9
+		div(ng-if="getClicked")
+			div(ng-if="profileExists")
+				h2 Profile for {{msisdnProxy}}
+			div(ng-if="!profileExists")
+				h2 No profile exists for {{msisdnProxy}}
+		div(ng-if="profileExists")
+			form(role="form" class="form-horizontal")
+				div(class="form-group")
+					div.col-lg-3
+						label Opt-in: 
+						&nbsp; 
+						span.glyphicon.glyphicon-question-sign(id="tip" tooltip-control="Chosen MSISDN will recieve messages meant for these coordinates.")
+					div.col-lg-9
+						input(type='checkbox' ng-model='oiValue' ng-change="changeCheckbox(oiValue)")
+				div(class="form-group")
+					div.col-lg-3
+						label Language Preference: 
+						&nbsp; 
+						span.glyphicon.glyphicon-question-sign(id="tip" tooltip-control="Alert will be recieved in this language only if broadcaster defines the alert in this language. Default language will be used if this language is unavailable.")
+					div.col-lg-9
+						select(ng-options="c.lang as c.lang for c in langOptions" ng-model="lange" ng-change="changeSelect(lange)") 
+				div(class="form-group")
+					div.col-lg-3
+						label Other interest area: 
+						&nbsp; 
+						span.glyphicon.glyphicon-question-sign(id="tip" tooltip-control="Chosen MSISDN will recieve messages meant for these coordinates.")
+					div.col-lg-9
+						input.col-lg-5(type='textbox' readonly ng-model='latlng') 
+						&nbsp;
+						span.glyphicon.glyphicon-globe(ng-click="showMap($event)" tooltip-control="Click here to define interest coordinates.")
+				button(type="button" class="btn btn-primary" ng-click="saveProfile($event)") Save Profile
+
+
+	div(class="modal fade" id="savedMessage" aria-hidden="true" modal-show-trigger)
+		div(class="modal-dialog")
+			div(class="modal-content")
+				div(class="modal-body")
+					<p>{{modalMessage}}</p>
+				div(class="modal-footer")
+					button(type="button" class="btn btn-info" data-dismiss="modal" ng-click="showModal=false") OK
+
+	div.modal.fade(id="map-modal" aria-hidden="true" map-modal-show-trigger)
+		div.modal-dialog
+			div.modal-content
+				div.modal-header
+					button.close(type="button" data-dismiss="modal" aria-hidden="true" ng-click="showMapModal=false") &times;
+					h4.modal-title Interest Coordinates
+				div.modal-body
+					div(hello-maps="" latitude="12.967084" longitude="77.581129" class="google-map" zoom="10")
+				div.modal-footer
+					button(type="button" class="btn btn-default" data-dismiss="modal" ng-click="showMapModal=false") Close
+					button(type="button" class="btn btn-primary" data-dismiss="modal" ng-click="saveInterestPoint($event)") Save Changes
+

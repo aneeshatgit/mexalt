@@ -1,4 +1,7 @@
 /* app css stylesheet */
+body {
+  padding-top: 60px;
+}
 
 .menu {
   list-style: none;
@@ -28,3 +31,152 @@
   content: "";
   padding: 0;
 }
+
+.google-map{
+  width: 800px;
+  height: 375px;
+}
+
+.div-mar-pad{
+  margin-left: 10px;
+  padding-left: 10px;
+}
+
+.labels {
+ color: white;
+ background-color: red;
+ font-family: "Lucida Grande", "Arial", sans-serif;
+ font-size: 5px;
+ font-weight: bold;
+ text-align: center;
+ width: 20px;
+ -moz-border-radius: 50%;
+ -webkit-border-radius: 50%;
+ border-radius: 50%; 
+}
+.interest-label {
+ color: white;
+ background-color: red;
+ font-family: "Lucida Grande", "Arial", sans-serif;
+ font-size: 5px;
+ font-weight: bold;
+ text-align: center;
+ width: 50px;
+ -moz-border-radius: 20%;
+ -webkit-border-radius: 20%;
+ border-radius: 20%; 
+}
+
+.log-text {
+  font-family: "Verdana", "Geneva", sans-serif;  
+  color: #A4A4A4;
+  font-size: 12px;
+}
+
+.scroll-div {
+  overflow-y: scroll;
+  max-height: 500px;
+}
+
+.imgage-container {
+  height:500px;
+  width:500px;
+  position:relative;
+}
+
+.image{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.text-content {
+  z-index: 100;
+  position: absolute;
+  top: 140px;
+  left: 85px;
+  max-height: 220px;
+  width: 195px;
+  overflow-y: scroll;
+  color: black;
+  font-size: 10px;
+}
+
+.sms-background {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f5f6f6), color-stop(21%,#dbdce2), color-stop(49%,#b8bac6), color-stop(80%,#dddfe3), color-stop(100%,#f5f6f6));
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  margin: 5px;
+  width: 175px;
+  padding: 5px;
+}
+
+.button-overlay {
+  z-index: 100;
+  position: absolute;
+  bottom: 90px;
+  right: 30px;
+}  
+
+.button-div-padding {
+  padding: 5px;
+}
+
+#map-modal .modal-dialog {
+  width: 950px;
+}
+
+.sms-content {
+  margin-bottom: 60px;
+}
+
+.incLabels {
+ color: white;
+ background-color: red;
+ font-family: "Lucida Grande", "Arial", sans-serif;
+ font-size: 5px;
+ font-weight: bold;
+ text-align: center;
+ width: 50px;
+ -moz-border-radius: 15%;
+ -webkit-border-radius: 15%;
+ border-radius: 15%; 
+}
+
+.imgDiv:hover ~ .pic-preview {
+  display:block;
+}
+
+
+.inc-map{
+  width: 1200px;
+  height: 570px;
+}
+
+
+.flyout{
+  position:fixed;
+  width:450px;
+  height:300px;
+  overflow: hidden;
+  z-index:10000;
+  display:none;
+  top:0;
+  right:0;
+}
+
+.pic-preview {
+  position: fixed;
+  width: 450px;
+  height: 300px;
+  overflow: hidden;
+  z-index: 10000;
+  display: hidden;
+  top: 5px;
+  right: 5px;
+}
+
+
+
