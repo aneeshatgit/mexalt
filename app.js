@@ -10,6 +10,7 @@ var express = require('express'),
   routes = require('./routes'),
   api = require('./routes/api'),
   upload = require('./routes/upload'),
+  sms = require('./routes/sms'),
   http = require('http'),
   path = require('path');
 
@@ -65,8 +66,9 @@ app.get('/api/name', api.name);
 app.get('*', routes.index);
 
 
-
+//var soap = require('soap')
 app.post('/upload', upload.uploader);
+app.post('/sendsms', sms.smser);//require('./routes/sms')(req, res, soap));
 
 
 

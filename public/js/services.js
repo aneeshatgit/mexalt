@@ -131,7 +131,7 @@ angular.module('myApp.services', []).
         });
 
 
-        content[coordinates[i].cgi]="<p>No subscribers at this site.</p>";
+        content[coordinates[i].cgi]="Cell Id: "+coordinates[i].cgi+"<br>"+"<p>No subscribers at this site.</p>";
         
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
@@ -159,7 +159,7 @@ angular.module('myApp.services', []).
         flag = true;
       }
 
-      flag ? markersAndInfo.content[idx] = numStr : markersAndInfo.content[idx] = "<p>No subscribers at this site.</p>";
+      flag ? markersAndInfo.content[idx] = "Cell Id: "+idx+"<br>"+ numStr : markersAndInfo.content[idx] = "Cell Id: "+idx+"<br>"+"<p>No subscribers at this site.</p>";
 
       return markersAndInfo;
     }

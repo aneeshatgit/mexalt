@@ -286,7 +286,7 @@ angular.module('myApp.controllers', []).
     $scope.modalMessage = "";
     $scope.smsContent={};
     $scope.saveAlert = function(ev){
-      var arr = polygonOnMap.getPath().b;
+      var arr = polygonOnMap.getPath().getArray();
       var len = arr.length;
       var newArr = [];
       var obj = {};
@@ -412,7 +412,7 @@ angular.module('myApp.controllers', []).
             }
           }
 
-          var coord = polygonOnMap.getPath().b;
+          var coord = polygonOnMap.getPath().getArray();
           var polyLen = coord.length;
           var statusTitleStr = commonMethods.getCurrentTime() + ": Alert sent.";
 
@@ -460,19 +460,47 @@ angular.module('myApp.controllers', []).
         }
       });
 
-      $scope.modalMessage = "Alert sending is triggered. Check status tab to view status of alert!";
-      $scope.showModal = true;
+      //send alert to real subscribers
+      //fetch the subscriber numbers from firebase.
+      var sUrl = "https://versapp.firebaseio.com/subscribers"
+      $scope.subscribersArr = {};
+      dataMethods.getAngularPromise(sUrl, $scope, 'subscribersArr').then(function(){
+        var subCellNumbers = {};
+        for (var s in $scope.subscribersArr) {
+          if (subCellNumbers[$scope.subscribersArr[s]["cgi"]]==null) {
+            subCellNumbers[$scope.subscribersArr[s]["cgi"]] = [];
+            subCellNumbers[$scope.subscribersArr[s]["cgi"]].push(s);
+          } else {
+            subCellNumbers[$scope.subscribersArr[s]["cgi"]].push(s);
+          }
+        }
+
+        var numberString = "";
+        var tLen = $scope.towerCoords.length;
+        for (var t = 0; t < tLen; t++) {
+          if(subCellNumbers[$scope.towerCoords[t].cgi]!=null){
+            for(var z=0; z<subCellNumbers[$scope.towerCoords[t].cgi].length; z++){
+              numberString = numberString + subCellNumbers[$scope.towerCoords[t].cgi][z] + ",";  
+            }
+          }
+        }
+        numberString = numberString.substring(0, numberString.length - 1);
+
+
+        //grab the message: $scope.smsContent['Default']
+
+        //call http post service to call the soap request to send sms.
+        var data = {numbers: numberString, message: $scope.smsContent['Default']}
+        $http.post('/sendsms', data).success(function(){
+          console.log('success');
+        }).error(function(){
+          console.log('error');
+        })
+
+        $scope.modalMessage = "Alert sending is triggered. Check status tab to view status of alert!";
+        $scope.showModal = true;        
+      });
     }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -513,6 +541,7 @@ angular.module('myApp.controllers', []).
       } else {
         $scope.boundsLoaded = false;
         //close wait dialog
+        $scope.waitFlag = false;
       }
     });
 
@@ -527,6 +556,7 @@ angular.module('myApp.controllers', []).
       } else {
         $scope.cellSitesLoaded = false;
         //close wait dialog
+        $scope.waitFlag = false;
       }
     });
 
@@ -707,7 +737,7 @@ angular.module('myApp.controllers', []).
       $timeout(function() { cellSitesSaved(); }, 2000).then(function(){ $scope.waitFlag = false; });
       function cellSitesSaved(){
         //then bounds are updated.
-        var arr = polygonOnMap.getPath().b;
+        var arr = polygonOnMap.getPath().getArray();
         var len = arr.length;
         var newArr = [];
         for (var i =0; i < len; i++) {
@@ -725,8 +755,8 @@ angular.module('myApp.controllers', []).
     }
 
     function loadCellTowers() {
-
-      var polyBound = commonMethods.getPolyBounds(polygonOnMap.getPath().b);
+      var y = polygonOnMap.getPath().getArray();
+      var polyBound = commonMethods.getPolyBounds(polygonOnMap.getPath().getArray());
 
       var west = polyBound.west;
       var south = polyBound.south;
@@ -771,7 +801,6 @@ angular.module('myApp.controllers', []).
 
     //else give provision to define. 
     $scope.submitNumberSeries = function(ev){
-
       validateInput();
 
       if ($scope.subErrors.length>0) {
@@ -797,7 +826,7 @@ angular.module('myApp.controllers', []).
       }
 
       var m = Number($scope.msisdnEnd);
-      if(!(String(m) === $scope.msisdnEnd && m>999999999 && m<10000000000)) {
+      if(!(String(m) === $scope.msisdnEnd && n>999999999 && n<10000000000)) {
         $scope.subErrors.push("End of MSISDN range should be 10 digit number.")
       }
 
@@ -956,6 +985,9 @@ angular.module('myApp.controllers', []).
 
     //get cell sites
     var cellsitesUrl = "https://versapp.firebaseio.com/cellsites";
+    var subsUrl = "https://versapp.firebaseio.com/subscribers";
+    $scope.subscribersArr = {};
+    dataMethods.getAngularPromise(subsUrl, $scope, "subscribersArr")
     $scope.cellSitesArr=[];
     var noOfCells = 0;
     dataMethods.getAngularPromise(cellsitesUrl, $scope, "cellSitesArr").then(function(){
@@ -982,8 +1014,26 @@ angular.module('myApp.controllers', []).
     function triggerLocationChange() {
       console.log('starting location change');
       //clear all cgis with previous MSISDN entries.
+      //identify subscribers cells
+      var subCellNumbers = {};
+      for (var s in $scope.subscribersArr) {
+        if (subCellNumbers[$scope.subscribersArr[s]["cgi"]]==null) {
+          subCellNumbers[$scope.subscribersArr[s]["cgi"]] = [];
+          subCellNumbers[$scope.subscribersArr[s]["cgi"]].push(s);
+        } else {
+          subCellNumbers[$scope.subscribersArr[s]["cgi"]].push(s);
+        }
+      }
+
       for (var j = 0; j< noOfCells; j++) {
         $scope.cellSitesArr[j]["msisdns"] = [];
+        $scope.cellSitesArr[j]["length"] = 0;
+        
+        //this code added to handle real subscribers
+        if(subCellNumbers[j]!=null){
+          $scope.cellSitesArr[j]["msisdns"] = subCellNumbers[j];
+          $scope.cellSitesArr[j]["length"]=$scope.cellSitesArr[j]["msisdns"].length;
+        }
       }
 
       //randomly assign each msisdn to a cell id
@@ -1306,6 +1356,7 @@ angular.module('myApp.controllers', []).
     $scope.changeStatus = function(id, incStatus){
       console.log("new status->"+ incStatus);
       $scope.incidents[id].status = incStatus;
+      updateMarkerArr();
     };
 
     $scope.createAlert = function(e, id){
@@ -1500,4 +1551,69 @@ angular.module('myApp.controllers', []).
       updateMarkerArr();
     });
     
+  }).
+
+
+  controller('asController', function ($scope, dataMethods, commonMethods) {
+    
+    var subUrl = "https://versapp.firebaseio.com/subscribers/";
+    var cellsUrl = "https://versapp.firebaseio.com/cellsites/";
+    $scope.subscibersArr = {};
+    $scope.cellsites = {};
+    dataMethods.getAngularPromise(subUrl, $scope, "subscibersArr");
+    dataMethods.getAngularPromise(cellsUrl, $scope, "cellsites");
+    
+    $scope.addSubscriber = function() {
+      if(checkNum() && checkCgi()) {
+        $scope.subscibersArr[$scope.subNum]= {num: $scope.subNum, cgi: $scope.cgi};
+        if($scope.cellsites[""+$scope.cgi]["msisdns"]==null){
+          $scope.cellsites[""+$scope.cgi]["msisdns"]=[];
+          $scope.cellsites[""+$scope.cgi]["msisdns"].push($scope.subNum);
+        } else {
+          $scope.cellsites[""+$scope.cgi]["msisdns"].push($scope.subNum);  
+        }
+        $scope.cellsites[""+$scope.cgi]["length"]=$scope.cellsites[""+$scope.cgi]["msisdns"].length;
+      }
+    }
+
+    $scope.deleteSubscriber = function(num, cgi) {
+      delete $scope.subscibersArr[num];
+      var arr = $scope.cellsites[cgi]["msisdns"];
+      var idx = arr.indexOf(num);
+      if (idx>-1) {
+        arr.splice(idx,1);
+      }
+      $scope.cellsites[cgi]["msisdns"] = arr;
+      $scope.cellsites[cgi]["length"] = $scope.cellsites[cgi]["msisdns"].length;
+    }
+
+    function checkNum() {
+      var numRx = new RegExp("[0-9]{8,16}");
+      if(numRx.test($scope.subNum)){
+        $scope.numError = "";
+        return true;
+      } else {
+        $scope.numError = "Invalid phone number";
+        return false;
+      }
+    }
+
+    function checkCgi() {
+      var max = 0;
+      for (var i in $scope.cellsites) {
+        var pi = parseInt(i);
+        if (pi>max){
+          max = pi;
+        }
+      }
+      if ($scope.cgi > 0 && $scope.cgi <= max){
+        $scope.cgiError = "";
+        return true;
+      } else {
+        $scope.cgiError = "Invalid Cell ID";
+        return false;
+      }
+    }
+
   });
+

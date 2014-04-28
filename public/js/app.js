@@ -39,6 +39,10 @@ config(function ($routeProvider, $locationProvider) {
       templateUrl: 'partials/incmonitor',
       controller: 'imController'
     }).
+    when('/as', {
+      templateUrl: 'partials/addsubs',
+      controller: 'asController'
+    }).
     otherwise({
       redirectTo: '/am'
     });
