@@ -1,20 +1,20 @@
 div
-	div(class="col-lg-4")
+	div(class="col-lg-2")
 		br
 		br
 		form(role="form" class="form-horizontal col-lg-12")
 			div(class="form-group")
-				label Event Name: 
-				&nbsp;
-				&nbsp;
+				label Nombre de Suceso: 
+				br
 				input(type='text' ng-model='alertName')
-				&nbsp;
-				button(type="button" class="btn btn-primary" ng-click="addAlert($event); alertName='';") Create Event
+				br
+				br
+				button(type="button" class="btn btn-primary" ng-click="addAlert($event); alertName='';") Crear Suceso
 		div(class="col-lg-12")
 			table(class="table table-hover")
 				thead
 					//th Event ID
-					th Event Name
+					th Nombre de Suceso
 					th
 				tbody
 					tr(ng-if="alertsArr=={}") 
@@ -24,21 +24,21 @@ div
 						td {{alert.name}}
 						td
 							span(class="glyphicon glyphicon-minus-sign" ng-click="deleteAlert(key, $event)")
-	div(class="col-lg-8" ng-class="{hidden: (selectedRows.length==0)}")
+	div(class="col-lg-10" ng-class="{hidden: (selectedRows.length==0)}")
 		h4 {{selectedRows[1]}} &nbsp;
 			small ID: {{selectedRows[0]}}
 
 		ul.nav.nav-tabs
 			li(ng-click="tabClick('map', $event)" ng-class="{active: visibleTab=='map'}") 
-				a Alert Region
+				a Región de Alerta
 			li(ng-click="tabClick('sms', $event)" ng-class="{active: visibleTab=='sms'}") 
-				a Message Content
+				a Contenido del Mensaje
 			li(ng-click="tabClick('status', $event)" ng-class="{active: visibleTab=='status'}") 
-				a Status
+				a Estado
 		div(ng-class="{hidden: !(visibleTab=='map')}")
 			br
 			div
-				div(hello-maps="" latitude="12.967084" longitude="77.581129" class="google-map" ng-click="showCoordinates($event)" zoom="10")
+				div(hello-maps="" latitude="24" longitude="-102.5" class="google-alert-map" ng-click="showCoordinates($event)" zoom="10")
 				div.button-overlay
 					button(type="button" class="btn btn-primary" ng-click="toggleDrawing($event)" ng-class="{disabled: doneDrawingVal}") {{drawText}}
 					&nbsp;
@@ -54,23 +54,23 @@ div
 		div(ng-class="{hidden: !(visibleTab=='sms')}")
 			br
 			div.col-lg-12.sms-content
-				label.col-lg-2 Default: 
-				textarea.col-lg-9(ng-model="smsContent.Default" placeholder="Type alert message here...")
+				label.col-lg-2 Por Defecto: 
+				textarea.col-lg-9(ng-model="smsContent.Default")
 			div.col-lg-12.sms-content
-				label.col-lg-2 English: 
-				textarea.col-lg-9(ng-model="smsContent.EN" placeholder="Type english alert message here...")
+				label.col-lg-2 Español: 
+				textarea.col-lg-9(ng-model="smsContent.DE")
 			div.col-lg-12.sms-content
-				label.col-lg-2 French: 
-				textarea.col-lg-9(ng-model="smsContent.FR" placeholder="Type french alert message here...")
+				label.col-lg-2 Inglés: 
+				textarea.col-lg-9(ng-model="smsContent.EN")
 			div.col-lg-12.sms-content
-				label.col-lg-2 German: 
-				textarea.col-lg-9(ng-model="smsContent.DE" placeholder="Type german alert message here...")
+				label.col-lg-2 Francés: 
+				textarea.col-lg-9(ng-model="smsContent.FR")
 			div.col-lg-12.sms-content
-				label.col-lg-2 Norwegian: 
-				textarea.col-lg-9(ng-model="smsContent.NO" placeholder="Type norwegian alert message here...")
+				label.col-lg-2 Noruego: 
+				textarea.col-lg-9(ng-model="smsContent.NO")
 			div.col-lg-12.sms-content
-				label.col-lg-2 Swedish: 
-				textarea.col-lg-9(ng-model="smsContent.SE" placeholder="Type swedish alert message here...")
+				label.col-lg-2 Sueco: 
+				textarea.col-lg-9(ng-model="smsContent.SE")
 
 		div(ng-class="{hidden: !(visibleTab=='status')}")
 			br
@@ -85,9 +85,9 @@ div
 							
 
 		div.button-div-padding
-			button(type="button" class="btn btn-success" ng-click="saveAlert($event)") Save Alert
+			button(type="button" class="btn btn-success" ng-click="saveAlert($event)") Guardar Alerta
 			&nbsp;
-			button(type="button" class="btn btn-danger" ng-click="sendAlert($event)" ng-class="{disabled: alertSendButtonDisabled}") Send Alert
+			button(type="button" class="btn btn-danger" ng-click="sendAlert($event)" ng-class="{disabled: alertSendButtonDisabled}") Enviar Alerta
 
 	
 	div(class="modal fade" id="savedMessage" aria-hidden="true" modal-show-trigger)

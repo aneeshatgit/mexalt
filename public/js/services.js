@@ -10,6 +10,15 @@ angular.module('myApp.services', []).
   factory('commonMethods', function(){
   	var factory = {};
 
+    factory.getRandomColor = function() {
+      var letters = '0123456789ABCDEF'.split('');
+      var color = '#';
+      for (var i = 0; i < 6; i++ ) {
+          color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
   	factory.toggleDrawing = function(scope) {
       //ev.preventDefault();
       if(scope.enableDraw){
@@ -64,8 +73,7 @@ angular.module('myApp.services', []).
     factory.renderCellSites = function(cellsArr, map) {
       var googleCells = [];
       for (var i in cellsArr){
-        if(parseInt(i)>=0){
-          
+        if(parseInt(i)>0){
           var marker = new MarkerWithLabel({
             position: new google.maps.LatLng(cellsArr[i].lat, cellsArr[i].lng),
             icon: {
@@ -130,6 +138,12 @@ angular.module('myApp.services', []).
           labelStyle: {opacity: 0.75}            
         });
 
+        if(coordinates[i].len==0) {
+          marker.setMap(null);
+        } else {
+          marker.setMap(map);
+        }
+
 
         content[coordinates[i].cgi]="Cell Id: "+coordinates[i].cgi+"<br>"+"<p>No subscribers at this site.</p>";
         
@@ -150,7 +164,7 @@ angular.module('myApp.services', []).
 
     factory.updateCell = function(markersAndInfo, idx, newLabel, msisdns, map) {
       markersAndInfo.markers[idx].labelContent = newLabel;
-      markersAndInfo.markers[idx].setMap(map);
+      //markersAndInfo.markers[idx].setMap(map);
 
       var numStr="";
       var flag = false;
@@ -159,7 +173,17 @@ angular.module('myApp.services', []).
         flag = true;
       }
 
+
       flag ? markersAndInfo.content[idx] = "Cell Id: "+idx+"<br>"+ numStr : markersAndInfo.content[idx] = "Cell Id: "+idx+"<br>"+"<p>No subscribers at this site.</p>";
+
+      //if there are no msisdns in this cell. Hide this cell.
+      if(msisdns.length==0) {
+        markersAndInfo.markers[idx].setMap(null);  
+      } else {
+        markersAndInfo.markers[idx].setMap(map);  
+      }
+      
+
 
       return markersAndInfo;
     }

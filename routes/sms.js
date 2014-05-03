@@ -6,7 +6,8 @@ exports.smser = function(req, res){
 				umsPassword: 'xfghfg45g',
 				to: req.body.numbers,
 				from: 'UMSIND',
-				text: req.body.message}
+				text: req.body.message};
+	console.log("numbers: "+req.body.numbers);
 	soap.createClient(url, function(err, client) {
 	  client.doSendSMSSimple(args, function(err, result) {
 	      if(err) {
@@ -14,7 +15,6 @@ exports.smser = function(req, res){
 	      }
 	      console.log(result);
        	  res.send({status: true});
-
 	  });
 	});
 

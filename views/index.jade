@@ -5,22 +5,18 @@ block body
     div.navbar.navbar-inverse.navbar-fixed-top
       ul.nav.navbar-nav(nav-pills-activation role='navigation')
         li
-          a.navbar-brand LBAC
+          a.navbar-brand 
+            img(src="images/logo3.png")
         li
-          a(href='cd') Create Data 
+          a(href='am') Población
         li
-          a(href='as') Add Subscribers
+          a(href='sra') Radio
         li
-          a(href='am') Alert Manager 
+          a(href='sga') Grupo
         li
-          a(href='pm') Profile Manager 
+          a(href='sta') TV
         li
-          a(href='vam') SMS Viewer 
-        li
-          a(href='im') Incident Monitor
-        li
-          a(href='sim') Simulator
-
+          a(href='tvl') TV Lista
     div(ng-view)
 
 
@@ -34,7 +30,7 @@ block body
   script(src='js/services.js')
   script(src='js/controllers.js')
   script(src='js/filters.js')
-  script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyALAr7pbufdMA4uszXc0PhWwPL-B1OS4gU&sensor=false')
+  script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyALAr7pbufdMA4uszXc0PhWwPL-B1OS4gU&sensor=false&amp;language=es')
   script(src="http://maps.googleapis.com/maps/api/js?libraries=geometry&sensor=false")
   script(src="js/lib/googlemap/markerwithlabel.js")
   script(src="js/lib/googlemap/oms.min.js")

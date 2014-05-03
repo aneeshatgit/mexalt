@@ -43,6 +43,41 @@ config(function ($routeProvider, $locationProvider) {
       templateUrl: 'partials/addsubs',
       controller: 'asController'
     }).
+    when('/dr', {
+      templateUrl: 'partials/defineradio',
+      controller: 'drController'
+    }).
+    when('/dg', {
+      templateUrl: 'partials/definegroups',
+      controller: 'dgController'
+    }).
+    when('/sga', {
+      templateUrl: 'partials/sendgroupalert',
+      controller: 'sgaController'
+    }).
+    when('/sra', {
+      templateUrl: 'partials/sendradioalert',
+      controller: 'sraController'
+    }).
+    when('/sta', {
+      templateUrl: 'partials/sendtvalert',
+      controller: 'staController'
+    }).
+    when('/dt', {
+      templateUrl: 'partials/definetv',
+      controller: 'dtController'
+    }).
+    when('/tvv/:id', {
+      templateUrl: 'partials/tvviewer',
+      controller: 'tvvController'
+    }).
+    when('/tvl', {
+      templateUrl: 'partials/tvlist',
+      controller: 'tvlController'
+    }).
+    when('/secret', {
+      templateUrl: 'partials/secretlinks'
+    }).
     otherwise({
       redirectTo: '/am'
     });

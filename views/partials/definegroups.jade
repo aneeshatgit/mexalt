@@ -1,0 +1,50 @@
+.col-md-2
+	.row
+		form(role="form" class="form-horizontal col-lg-12")
+			div(class="form-group")
+				label Group Name: 
+				br
+				input(type='text' ng-model='groupName')
+				br
+				br
+				button(type="button" class="btn btn-primary" ng-click="addGroup()") Add Group
+	.row
+		table(class="table table-hover")
+			thead
+				th Group Name
+				th
+			tbody
+				tr(ng-if="groupArr=={}") 
+					td No se encontraron Grupos
+				tr(ng-repeat="(key, group) in groupArr" ng-click="selectGroup(key, group.name)" ng-class="{warning: selectedRows.indexOf(key)>-1}")
+					//td {{key}}
+					td {{group.name}}
+					td
+						span(class="glyphicon glyphicon-minus-sign" ng-click="deleteGroup(key, $event)")
+.col-md-9.col-md-offset-1(ng-class='{hidden: !showGroupDetails}')
+	.row(ng-if="selectedRows[1]!=null")
+		h4(style="color: grey")
+			| Details of {{selectedRows[1]}}
+	.row
+		.col-md-4
+			| Name: 
+			input(type='text' enabled="false" ng-model="groupItem.name")
+		.col-md-4
+			| Contact #: 
+			input(type='text' ng-model='groupItem.contact')
+		.col-md-3
+			button(type="button" class="btn btn-success" ng-click="addGroupItem()") Add Member
+	.row
+		table(class="table table-hover")
+			thead
+				th Name
+				th Contact #
+				th
+			tbody
+				tr(ng-if="groupItemsArr==[]") 
+					td No contacts defined.
+				tr(ng-repeat="item in groupItemsArr")
+					td {{item.name}}
+					td {{item.contact}}
+					td
+						span(class="glyphicon glyphicon-minus-sign" ng-click="deleteGroupItem($index)")

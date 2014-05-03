@@ -1,0 +1,39 @@
+.col-md-2
+	.row
+		form(role="form" class="form-horizontal col-lg-12")
+			div(class="form-group")
+				label Radio Station Name: 
+				br
+				input(type='text' ng-model='rsName')
+				br
+				br
+				button(type="button" class="btn btn-primary" ng-click="addStation()") Add Station
+	.row
+		div(class="col-md-12")
+			table(class="table table-hover")
+				thead
+					th Station Name
+					th
+				tbody
+					tr(ng-if="radioArr=={}") 
+						td No stations found.
+					tr(ng-repeat="(key, radio) in radioArr" ng-click="selectRadio(key, radio.name, $event)" ng-class="{warning: selectedRows.indexOf(key)>-1}")
+						//td {{key}}
+						td {{radio.name}}
+						td
+							span(class="glyphicon glyphicon-minus-sign" ng-click="deleteRadio(key)")
+.col-md-10(ng-class='{hidden: !radioDetailsShown}' ng-init="notifyHide=true")
+	.row.alert.alert-success(ng-class='{hidden: notifyHide}')
+		| Radio Station saved successfully
+	.row
+		.col-md-6
+			| Coordinates: 
+			input(type='text' ng-model="coords" disabled)
+		.col-md-6
+			| Phone Number: 
+			input(type='text' ng-model='phoneNumber')
+	.row(style="margin-top: 10px")
+		div(hello-maps="" latitude="24" longitude="-102.5" class="google-alert-map" zoom="7")
+	.row
+		br
+		button(type='button' class='btn btn-success' ng-click='saveStationDetails()' ng-class="{disabled: (phoneNumber=='')}") Save
