@@ -1815,6 +1815,7 @@ angular.module('myApp.controllers', []).
     var voiceList = {};
     $scope.smsCount = 0;
     $scope.voiceCount = 0;
+    $scope.alert = "";
     $scope.sms = {};
     $scope.voice = {};
 
@@ -1920,6 +1921,7 @@ angular.module('myApp.controllers', []).
       }
     });
 
+    $scope.alert = "";
     $scope.log = "";
     var radioLogUrl = "https://versapp.firebaseio.com/radiolog"
     $scope.radiolog = {};

@@ -6,10 +6,23 @@ config.mongo_prod_string = 'mongodb://localhost/cdmdb';
 
 //sms parameters
 config.smsWsdl = 'https://secure.ums.no/soap/sms/2.1/sms.asmx?wsdl';
-config.umsCompany = 'UMSINDIA';
-config.umsDepartment = 'POC';
-config.umsPassword = 'xfghfg45g';
-config.smsfrom = 'UMSIND';
+//INDIA params
+//config.umsCompany = 'UMSINDIA';
+//config.umsDepartment = 'POC';
+//config.umsPassword = 'xfghfg45g';
+//config.smsfrom = 'UMSIND';
+
+//IPX params
+//config.umsCompany = 'UMSPAS';
+//config.umsDepartment = 'RW';
+//config.umsPassword = 'yCIzAN';
+//config.smsfrom = 'UMS';
+
+//Beepsend params
+config.umsCompany = 'UMS';
+config.umsDepartment = 'TEST';
+config.umsPassword = 'ums123';
+config.smsfrom = 'UMS';
 
 
 //voice paramters
