@@ -2,16 +2,16 @@
 	.row
 		form(role="form" class="form-horizontal col-lg-12")
 			div(class="form-group")
-				label Group Name: 
+				label Nombre de Grupo: 
 				br
 				input(type='text' ng-model='groupName')
 				br
 				br
-				button(type="button" class="btn btn-primary" ng-click="addGroup()") Add Group
+				button(type="button" class="btn btn-primary" ng-click="addGroup()") Añadir Grupo
 	.row
 		table(class="table table-hover")
 			thead
-				th Group Name
+				th Nombre de Grupo
 				th
 			tbody
 				tr(ng-if="groupArr=={}") 
@@ -24,25 +24,25 @@
 .col-md-9.col-md-offset-1(ng-class='{hidden: !showGroupDetails}')
 	.row(ng-if="selectedRows[1]!=null")
 		h4(style="color: grey")
-			| Details of {{selectedRows[1]}}
+			| Detalles de {{selectedRows[1]}}
 	.row
 		.col-md-4
-			| Name: 
+			| Nombre: 
 			input(type='text' enabled="false" ng-model="groupItem.name")
 		.col-md-4
-			| Contact #: 
+			| No de Contacto #: 
 			input(type='text' ng-model='groupItem.contact')
 		.col-md-3
-			button(type="button" class="btn btn-success" ng-click="addGroupItem()") Add Member
+			button(type="button" class="btn btn-success" ng-click="addGroupItem()") Añadir Miembro
 	.row
 		table(class="table table-hover")
 			thead
-				th Name
-				th Contact #
+				th Nombre
+				th No de Contacto
 				th
 			tbody
 				tr(ng-if="groupItemsArr==[]") 
-					td No contacts defined.
+					td No se han definido contactos
 				tr(ng-repeat="item in groupItemsArr")
 					td {{item.name}}
 					td {{item.contact}}

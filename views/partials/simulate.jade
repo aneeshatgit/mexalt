@@ -2,7 +2,7 @@ div(ng-controller="simController" class="col-lg-12")
 	div
 		form(role="form" class="form-horizontal")
 			div(class="form-group")
-				label Simulation Interval: 
+				label Intervalo de Simulación: 
 				&nbsp;
 				&nbsp;
 				label(ng-class="{hidden: editMode}") {{simulationInterval}}
@@ -19,12 +19,13 @@ div(ng-controller="simController" class="col-lg-12")
 
 
 	div
-		label Simulation Log:	
+		label Log de Simulación:	
 		br
 		textarea(readonly adjust-scroll rows="20" ng-model="simulationLogText" class="col-lg-12 log-text") 
 		br
 		br
-		button(type="button" class="btn btn-primary" ng-click="simulationLogText=''") Clear Log
+		button(type="button" class="btn btn-primary" ng-click="simulationLogText=''") Borrar Log
+
 		//input(type='text' class="col-lg-12" ng-model="simulationLogText") 
 
 

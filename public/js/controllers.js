@@ -686,8 +686,8 @@ angular.module('myApp.controllers', []).
     //if user wants to edit existing definition.
     $scope.editBounds = function (ev) {
       //text of toggle buttons based on the state.
-      $scope.drawText = "Enable Drawing"
-      $scope.doneDrawText = "Lock Drawing"
+      $scope.drawText = "Habilitar Dibujar"
+      $scope.doneDrawText = "Bloquear Región"
 
       //these are values to indicate the toggle state of the enable and lock drawing buttons. 
       $scope.doneDrawingVal = false;
@@ -831,18 +831,18 @@ angular.module('myApp.controllers', []).
       //both strings are numbers
       var n = Number($scope.msisdnStart);
       if(!(String(n) === $scope.msisdnStart && n>999999999 && n<10000000000)) {
-        $scope.subErrors.push("Start of MSISDN range should be 10 digit number.")
+        $scope.subErrors.push("El comienzo de un rango de MSISDNs debe ser un número de 10 cifras.")
       }
 
       var m = Number($scope.msisdnEnd);
       if(!(String(m) === $scope.msisdnEnd && n>999999999 && n<10000000000)) {
-        $scope.subErrors.push("End of MSISDN range should be 10 digit number.")
+        $scope.subErrors.push("El fin de un rango de MSISDNs debe ser un número de 10 cifras.")
       }
 
 
       //start number is less than end number
       if(n>m) {
-        $scope.subErrors.push("Starting MSISDN must be greater than ending MSISDN.") 
+        $scope.subErrors.push("El MSISDN de comienzo de un rango de MSISDNs debe ser menor que el MSISDN final.") 
       }
     }      
 
@@ -855,7 +855,7 @@ angular.module('myApp.controllers', []).
       for (var i = $scope.msisdnStart; i<=$scope.msisdnEnd; i++) {
           arr[i] = {};
           arr[i]["messages"]=[];
-          arr[i]["messages"].push({message: "Welcome! Your mobile is latched on to the network.", time: commonMethods.getCurrentTime()});
+          arr[i]["messages"].push({message: "Bienvenido! Su móvil está conectado a la red.", time: commonMethods.getCurrentTime()});
           arr[i]["loc"] = [];
           arr[i]["loc"].push({cgi: "0", time: commonMethods.getCurrentTime()});
           arr[i]["profile"] = {oi: true, lang: "Default", validNum: true};
@@ -980,7 +980,7 @@ angular.module('myApp.controllers', []).
   }).
   controller('simController', function ($scope, dataMethods, commonMethods, $timeout) {
     //text for simulate button
-    $scope.simulationStateText = "Start Simulation";
+    $scope.simulationStateText = "Comienzo Simulación";
     $scope.simulationState = false;
 
     var msisdnReady = false;
@@ -1018,7 +1018,7 @@ angular.module('myApp.controllers', []).
 
     }
     
-    $scope.simulationLogText = "Waiting to start simulation...";
+    $scope.simulationLogText = "A la espera de comenzar la simulación…";
 
     function triggerLocationChange() {
       console.log('starting location change');
@@ -1049,10 +1049,10 @@ angular.module('myApp.controllers', []).
       for (var i in $scope.msisdnListArr) {
         var c = commonMethods.getRandomInt(0, noOfCells-1);
         var ts = commonMethods.getCurrentTime();
-        $scope.simulationLogText=$scope.simulationLogText.concat(ts+': MSISDN: '+i+' is being assigned to cell: ' + c+"\n");
+        $scope.simulationLogText=$scope.simulationLogText.concat(ts+': El MSISDN: '+i+' está siendo asignada a la celda: ' + c+"\n");
         $scope.msisdnListArr[i]["loc"].push({cgi: ""+c, time: ts});
         $scope.cellSitesArr[c]["msisdns"].push(i);
-        $scope.simulationLogText=$scope.simulationLogText.concat(ts+': Cell '+c+' now contains these MSISDNs: ' + $scope.cellSitesArr[c]["msisdns"]+"\n");
+        $scope.simulationLogText=$scope.simulationLogText.concat(ts+': La celda '+c+' ahora contiene estos MSISDNs: ' + $scope.cellSitesArr[c]["msisdns"]+"\n");
         $scope.cellSitesArr[c]["length"]=$scope.cellSitesArr[c]["msisdns"].length;
         $scope.cellSitesArr[c]["cgi"]=c;
       }
@@ -1062,10 +1062,10 @@ angular.module('myApp.controllers', []).
     $scope.setSimulationState =function (ev) {
       if($scope.simulationState) {
         $scope.simulationState = false;
-        $scope.simulationStateText = "Start Simulation";
+        $scope.simulationStateText = "Comienzo Simulación";
       } else {
         $scope.simulationState = true;
-        $scope.simulationStateText = "Stop Simulation";
+        $scope.simulationStateText = "Detener la Simulación";
       }
     }
     $scope.editMode = false;
@@ -1078,7 +1078,7 @@ angular.module('myApp.controllers', []).
         $scope.errors = "";
         $scope.editMode = false;  
       } else {
-        $scope.errors = "Value of Simulation Interval must be atleast 30 secs.";
+        $scope.errors = "El Valor del Intervalo de Simulación debe ser por lo menos 30 segs.";
       }
       
     }
@@ -1602,7 +1602,7 @@ angular.module('myApp.controllers', []).
         $scope.numError = "";
         return true;
       } else {
-        $scope.numError = "Invalid phone number";
+        $scope.numError = "Número de teléfono no válido";
         return false;
       }
     }
@@ -1619,7 +1619,7 @@ angular.module('myApp.controllers', []).
         $scope.cgiError = "";
         return true;
       } else {
-        $scope.cgiError = "Invalid Cell ID";
+        $scope.cgiError = "ID de celda no válido";
         return false;
       }
     }

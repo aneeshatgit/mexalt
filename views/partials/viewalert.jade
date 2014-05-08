@@ -10,24 +10,24 @@ div.row
 			&nbsp;
 			br
 			br
-			button(type="button" class="btn btn-primary" ng-click="getMessage($event)") Get Messages
+			button(type="button" class="btn btn-primary" ng-click="getMessage($event)") Recibir mensajes
 			&nbsp;
-			button(type="button" class="btn btn-primary" ng-click="getLocation($event)") Get Location Updates
+			button(type="button" class="btn btn-primary" ng-click="getLocation($event)") Recibe actualizaciones de ubicación
 	div.col-lg-6
 		div(ng-if="showMessages && !noMessages")
-			h2 Messages for {{msisdnProxy}}
+			h2 Mensajes para {{msisdnProxy}}
 		div(ng-if="noMessages")
-			h2 No messages for {{msisdnProxy}}
+			h2 No hay mensajes para {{msisdnProxy}}
 		div.imgage-container(ng-if="showMessages && !noMessages")
 			img.image(src='images/iphone2.png')
 			div.text-content
 				div.sms-background(ng-repeat="item in msgList | reverse") 
-					b ALERT:
+					b ALERTA:
 					{{item.time}}: {{item.message}}
 		div(ng-if="showLocations && !noLocUpdates")
-			h2 Location Updates for {{msisdnProxy}}
+			h2 Ubicación actualizaciones para {{msisdnProxy}}
 		div(ng-if="noLocUpdates")
-			h2 No location updates for {{msisdnProxy}}
+			h2 No hay actualizaciones de ubicación para {{msisdnProxy}}
 		div.scroll-div(ng-if="showLocations && !noLocUpdates")
 			ul
 				li(ng-repeat="item in locList | reverse") 
