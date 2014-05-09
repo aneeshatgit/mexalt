@@ -23,10 +23,10 @@ angular.module('myApp.services', []).
       //ev.preventDefault();
       if(scope.enableDraw){
         scope.enableDraw = false;
-        scope.drawText = "Enable Drawing" 
+        scope.drawText = "Habilitar Dibujar" 
       } else {
         scope.enableDraw = true;
-        scope.drawText = "Disable Drawing" 
+        scope.drawText = "Deshabilitar Dibujar" 
       }
   	}
 

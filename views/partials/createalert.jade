@@ -44,12 +44,12 @@ div
 					&nbsp;
 					button(type="button" class="btn btn-primary" ng-click="doneDrawing($event)" ng-class="{disabled: (polyArr.length<3)}") {{doneDrawText}}
 			div(class='row')
-				p(class='col-lg-4') Current Drawing mode: 
-					label(ng-if="!enableDraw") Disabled 
-					label(ng-if="enableDraw") Enabled 
-				p(class='col-lg-4') Current Lock mode: 
-					label(ng-if="!doneDrawingVal") Unlocked 
-					label(ng-if="doneDrawingVal") Locked 
+				p(class='col-lg-4') Actual modo de dibujo: 
+					label(ng-if="!enableDraw") Deshabilitado 
+					label(ng-if="enableDraw") Habilitado 
+				p(class='col-lg-4') Actual mode de bloqueo: 
+					label(ng-if="!doneDrawingVal") Desbloqueado 
+					label(ng-if="doneDrawingVal") Bloqueado
 
 		div(ng-class="{hidden: !(visibleTab=='sms')}")
 			br
@@ -103,7 +103,7 @@ div
 		div.modal-dialog
 			div.modal-content
 				div.modal-header
-					h3(align="center") Please wait...
+					h3(align="center") Por favor espere…
 				div.modal-body
 					div.progress.progress-striped.active
 						div.progress-bar(role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%")
