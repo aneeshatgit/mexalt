@@ -73,6 +73,13 @@ angular.module('myApp.controllers', []).
       $scope.waitFlag = false; 
       if(inId!=undefined && inName!=undefined) {
         $scope.selectAlert(inId, inName);
+      } 
+
+      for (var a in $scope.alertsArr) {
+        var ida = a;
+        var namea = $scope.alertsArr[a].name;
+        $scope.selectAlert(ida, namea);
+        break;
       }
       //close loading dialog
       //get phone number list in case alert has to be sent. this is proxy for smpp integration
@@ -1978,7 +1985,7 @@ angular.module('myApp.controllers', []).
         }
       }
 
-      var data = {message: $scope.alert, numbers: num};
+      var data = {message: $scope.alert + " " + $scope.alert + " " + $scope.alert + " " + $scope.alert, numbers: num};
       $http.post('/sendradioalert', data).success(function(d){
         $scope.radiolog[commonMethods.getCurrentTime()] = "Se envió un mensaje de alerta a las siguientes emisoras de radio: " + stations;
         createLog();
