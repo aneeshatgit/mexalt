@@ -103,7 +103,7 @@ angular.module('myApp.controllers', []).
       $scope.selectAlert(ts, $scope.alertName);
 
       $scope.statusList=[];
-      $scope.statusList.push({title: commonMethods.getCurrentTime()+": New Alert Created", desc: "New alert created with name:"+ $scope.alertName});
+      $scope.statusList.push({title: commonMethods.getCurrentTime()+": Nueva alerta creado", desc: "Nueva alerta creada con el nombre:"+ $scope.alertName});
 
       $scope.alertsArr[ts] = {name: $scope.alertName};
       $scope.alertsArr[ts]["details"] =  {statusList: $scope.statusList};
