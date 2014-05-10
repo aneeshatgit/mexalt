@@ -36,8 +36,8 @@ angular.module('myApp.controllers', []).
 
     var markersOnMap = [];
 
-    $scope.drawText = "Habilitar Dibujar"
-    $scope.doneDrawText = "Borrar Región"
+    $scope.drawText = "Habilitar Selección"
+    $scope.doneDrawText = "Eliminar Selección"
     
     $scope.enableDraw = false;
     $scope.doneDrawingVal = false; 
@@ -218,7 +218,7 @@ angular.module('myApp.controllers', []).
       }
 
       //change UI button status.
-      commonMethods.doneDrawing($scope, "Bloquear Región", "Borrar Región");
+      commonMethods.doneDrawing($scope, "Bloquear selección", "Eliminar selección");
 
     };
 
@@ -353,7 +353,7 @@ angular.module('myApp.controllers', []).
         if(len>0){
           eval("commonMethods.renderPolygon($scope."+vname+"['details']['latlng'], $scope.mapForScope, polygonOnMap)");
           $scope.doneDrawingVal = false;
-          commonMethods.doneDrawing($scope, "Bloquear Región", "Borrar Región");
+          commonMethods.doneDrawing($scope, "Bloquear selección", "Eliminar selección");
           fetchTowerInformation();
         }
         eval("if($scope."+vname+"['details']!=undefined) { $scope.smsContent = {}; for (var k in $scope."+vname+"['details']['smsContent']) { $scope.smsContent[k] = $scope."+vname+"['details']['smsContent'][k]}}");

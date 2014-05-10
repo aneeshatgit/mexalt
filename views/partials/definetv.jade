@@ -1,7 +1,7 @@
 .row
 	form(role="form" class="form-horizontal col-lg-12")
 		div(class="form-group")
-			label Nombre de Operador de TV: 
+			label Nombre Operador TV: 
 			br
 			input(type='text' ng-model='tvName')
 			br
@@ -10,11 +10,11 @@
 			input(type='text' ng-model='source' style="width: 45%")
 			br
 			br
-			button(type="button" class="btn btn-primary" ng-click="addTv()") Añadir Operador
+			button(type="button" class="btn btn-primary" ng-click="addTv()") Adicionar Operador
 .row
 	table(class="table table-hover")
 		thead
-			th Nombre de Operador de TV
+			th Nombre Operador
 			th
 		tbody
 			tr(ng-if="tvArr=={}") 

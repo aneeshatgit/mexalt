@@ -1,7 +1,7 @@
 div
 	form(role="form" class="form-horizontal col-lg-12")
 		div(class="form-group")
-			label Número de Abonado Móvil: 
+			label Número de Telefono: 
 			&nbsp;
 			&nbsp;
 			input(type='text' ng-model='subNum')
@@ -13,12 +13,12 @@ div
 			input(type='text' ng-model='cgi')
 			span(style="color: red; margin-left: 3px"){{cgiError}}
 		div(class="form-group")
-			button(type="button" class="btn btn-primary" ng-click="addSubscriber()") Agregar Abonado
+			button(type="button" class="btn btn-primary" ng-click="addSubscriber()") Adicionar Suscriptor
 	br
 	div(class="col-lg-6")
 		table(class="table table-hover")
 			thead
-				th Numero de Abonado
+				th Numero del Suscriptor
 				th ID de Celda
 				th
 			tbody

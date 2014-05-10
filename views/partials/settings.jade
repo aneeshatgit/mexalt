@@ -1,6 +1,6 @@
 div.div-mar-pad.row
 	div(class="col-lg-8")
-		h4 Definición de Ámbito Geográfico 
+		h4 Seleccionar Area Geografica
 			span.glyphicon.glyphicon-question-sign(tooltip-control="This will be the boundary within which alerts can be sent.")
 		div(hello-maps="" latitude="24" longitude="-102.5" class="google-map" zoom="8")
 		br
@@ -51,8 +51,8 @@ div.div-mar-pad.row
 					p(class="col-lg-3") Longitud:
 					label(class="col-lg-5" ng-class="{hidden: !centerLoaded}") {{centerLng}}				
 					input(type='text' class="col-lg-6" placeholder='Map Center Longitude' size="25" ng-model='centerLng' ng-class="{hidden: centerLoaded}")
-				button(type="button" class="btn btn-primary" ng-click="submitMapCenter($event)" ng-class="{hidden: centerLoaded}") Guardar Centro del Mapa
-				button(type="button" class="btn btn-primary" ng-click="editMapCenter($event)" ng-class="{hidden: !centerLoaded}") Editar Centro del Mapa
+				button(type="button" class="btn btn-primary" ng-click="submitMapCenter($event)" ng-class="{hidden: centerLoaded}") Guardar Centro de Mapeo
+				button(type="button" class="btn btn-primary" ng-click="editMapCenter($event)" ng-class="{hidden: !centerLoaded}") Editar Centro de Mapeo
 		div
 			ul(ng-class="{hidden: !(centerErrors.length>0)}") Errores:
 				li(ng-repeat = 'c in centerErrors') {{c}}

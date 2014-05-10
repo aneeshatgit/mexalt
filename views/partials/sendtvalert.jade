@@ -6,11 +6,11 @@
 	.row
 		table(class="table table-hover")
 			thead
-				th Nombre de la Cadena de TV
+				th Nombre del Proueedor de servicio
 				th
 			tbody
 				tr(ng-if="tvArr=={}") 
-					td No Operators found
+					td Hay operadores que se encuentran
 				tr(ng-repeat="(key, tv) in tvArr" ng-click="selectGroup(key, tv.name)")
 					td {{tv.name}}
 					td 
@@ -19,6 +19,6 @@
 		button.btn.btn-danger(ng-click='sendTVAlert()' ng-class="{disabled: (alert.trim()=='' || numOfTvs==0)}") Enviar Alerta por TV
 .col-md-5.col-md-offset-1
 	.row
-		label Log de Alertas:
+		label Registro de alertas:
 		br
 		textarea(readonly adjust-scroll rows="20" ng-model="log" class="col-lg-11 log-text")

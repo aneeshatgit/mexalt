@@ -23,20 +23,20 @@ angular.module('myApp.services', []).
       //ev.preventDefault();
       if(scope.enableDraw){
         scope.enableDraw = false;
-        scope.drawText = "Habilitar Dibujar" 
+        scope.drawText = "Habilitar selección" 
       } else {
         scope.enableDraw = true;
-        scope.drawText = "Deshabilitar Dibujar" 
+        scope.drawText = "Deshabilitar selección" 
       }
   	}
 
     factory.doneDrawing = function(scope, lockText, unLockText) {
      if(scope.doneDrawingVal){
       scope.doneDrawingVal = false;
-      (lockText==undefined) ? scope.doneDrawText = "Lock Drawing" : scope.doneDrawText = lockText;
+      (lockText==undefined) ? scope.doneDrawText = "Bloquear selección" : scope.doneDrawText = lockText;
      } else {
       scope.doneDrawingVal = true;
-      (unLockText==undefined) ? scope.doneDrawText = "Unlock Drawing" : scope.doneDrawText = unLockText;
+      (unLockText==undefined) ? scope.doneDrawText = "Desbloquear selección" : scope.doneDrawText = unLockText;
      }
     };
 
@@ -174,7 +174,7 @@ angular.module('myApp.services', []).
       }
 
 
-      flag ? markersAndInfo.content[idx] = "Cell Id: "+idx+"<br>"+ numStr : markersAndInfo.content[idx] = "Cell Id: "+idx+"<br>"+"<p>No subscribers at this site.</p>";
+      flag ? markersAndInfo.content[idx] = "Cell Id: "+idx+"<br>"+ numStr : markersAndInfo.content[idx] = "Cell Id: "+idx+"<br>"+"<p>No abonados a este sitio.</p>";
 
       //if there are no msisdns in this cell. Hide this cell.
       if(msisdns.length==0) {

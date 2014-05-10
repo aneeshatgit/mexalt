@@ -2,16 +2,16 @@
 	.row
 		form(role="form" class="form-horizontal col-lg-12")
 			div(class="form-group")
-				label Nombre de Grupo: 
+				label Nombre del Grupo: 
 				br
 				input(type='text' ng-model='groupName')
 				br
 				br
-				button(type="button" class="btn btn-primary" ng-click="addGroup()") Añadir Grupo
+				button(type="button" class="btn btn-primary" ng-click="addGroup()") Adicionar Grupo
 	.row
 		table(class="table table-hover")
 			thead
-				th Nombre de Grupo
+				th Nombre del Grupo
 				th
 			tbody
 				tr(ng-if="groupArr=={}") 
@@ -30,10 +30,10 @@
 			| Nombre: 
 			input(type='text' enabled="false" ng-model="groupItem.name")
 		.col-md-4
-			| No de Contacto #: 
+			| # Contacto: 
 			input(type='text' ng-model='groupItem.contact')
 		.col-md-3
-			button(type="button" class="btn btn-success" ng-click="addGroupItem()") Añadir Miembro
+			button(type="button" class="btn btn-success" ng-click="addGroupItem()") Adicionar Miembro
 	.row
 		table(class="table table-hover")
 			thead
