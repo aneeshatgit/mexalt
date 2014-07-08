@@ -13,7 +13,8 @@ var express = require('express'),
   sms = require('./routes/sms'),
   core = require('./routes/core'),
   http = require('http'),
-  path = require('path');
+  path = require('path'),
+  i18n = require('i18n');
 
 var Firebase = require('firebase');
 var boundsRef = new Firebase('https://versapp.firebaseio.com/bounds');
@@ -25,6 +26,13 @@ var app = module.exports = express();
 
 var arr = [];
 
+i18n.configure({
+    locales: ['en', 'es', 'nor'],
+    cookie: 'localeCookie',
+    directory: './views/locales',
+    defaultLocale: 'en'
+  });
+
 
 /**
  * Configuration
@@ -35,9 +43,11 @@ app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express.logger('dev'));
+app.use(express.cookieParser());
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(i18n.init);
 app.use(app.router);
 
 // development only
@@ -72,6 +82,14 @@ app.post('/upload', upload.uploader);
 app.post('/sendsms', sms.smser);
 app.post('/sendgroupalert', core.sendgroupalert);
 app.post('/sendradioalert', core.sendradioalert);
+
+
+app.post('/setLocale', function(req, res) {
+  console.log('lang: '+ JSON.stringify(req.body));
+  var locale = req.body.lang;
+  res.cookie('localeCookie', locale, { httpOnly: false });
+  res.send(200);
+});
 
 
 

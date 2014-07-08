@@ -1,0 +1,43 @@
+#loginPage.loginBody(ng-init="lang=['English', 'Spanish', 'Norsk']; try1='sv'")
+	.row
+		img(src='/images/LogInPage_Logo.png', style='float: left')
+		#lang.col-md-3(style='float: right')
+			label.col-md-3(for='language') #{__('Language')} 
+			#langOptions.col-md-9
+				.option.col-md-4(ng-click="selectLang('en')", ng-class="{langSelected: langSelected=='en'}")
+					.row
+						img(src='images/lang/en.png')
+					.row
+						p.langText #{__('English')} 
+				.option.col-md-4(ng-click="selectLang('es')", ng-class="{langSelected: langSelected=='es'}")
+					.row
+						img(src='images/lang/es.png')
+					.row
+						p.langText #{__('Spanish')} 
+				.option.col-md-4(ng-click="selectLang('nor')", ng-class="{langSelected: langSelected=='nor'}")
+					.row
+						img(src='images/lang/nor.png')
+					.row
+						p.langText #{__('Norwegian')} 
+	.row(style="margin: 75px")
+		.modal-dialog
+			.modal-content
+				.modal-header
+					h4.modal-title #{__('UMS Alert')} 
+				.modal-body
+					form(role="form")
+						.row(style="margin: 10px")
+							.col-md-4
+								label(for='userid') #{__('Email: ')}
+							.col-md-8
+								input.form-control(type='text', name='userid', placeholder='user id . . .', style='width: 100%', ng-model='userid')
+						.row(style="margin: 10px")
+							.col-md-4
+								label(for='password') #{__('Password: ')}
+							.col-md-8
+								input.form-control(type='password', name='password', placeholder='password . . .', style='width: 100%', ng-model='password')
+						.row(style="margin: 10px", ng-show="validCredentials==false")
+							.col-md-8.col-md-offset-4
+								small(style="color: red") #{__('Invalid username and password')}
+				.modal-footer
+					button.btn.btn-hp(type='button', ng-click='login()') #{__('Login')}

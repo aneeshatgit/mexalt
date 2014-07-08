@@ -1,4 +1,5 @@
-h3 List of TV Operators
+include navbar
+h3 #{__('List of TV Operators')}
 ul
 	li(ng-repeat="(key, tv) in tvArr") 
 		a(href="/tvv/{{key}}"){{tv.name}}

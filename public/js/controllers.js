@@ -3,7 +3,30 @@
 /* Controllers */
 
 angular.module('myApp.controllers', []).
-  controller('AppCtrl', function ($scope, $http) {
+  controller('loginController', function ($scope, $location, $cookies, $http, $window) {
+      $scope.validCredentials = true;
+      $scope.langSelected = $cookies.localeCookie;
+
+
+      $scope.login = function() {
+        $scope.validCredentials = false;
+        console.log('somet');
+        if($scope.userid=='demo@ums.no' && $scope.password=='demo') {
+          $scope.validCredentials = true;
+          $location.path('/am');  
+        }
+      };
+
+      $scope.selectLang = function(lang) {
+        //call backend to set the language.
+        $http.post('/setLocale', {lang: lang})
+          .success(function(){
+            //on success reload the page and set the selected language by different highlighting
+            $scope.langSelected = lang;
+            $window.location.reload();
+          });
+      }
+
   }).
   controller('amController', function ($scope, $http, commonMethods, dataMethods, $routeParams) {
     var inId = $routeParams.id;
@@ -36,8 +59,10 @@ angular.module('myApp.controllers', []).
 
     var markersOnMap = [];
 
-    $scope.drawText = "Habilitar Selección"
-    $scope.doneDrawText = "Eliminar Selección"
+    //$scope.drawText = "Habilitar Selección"
+    //$scope.drawText = "Habilitar Selección"
+    //$scope.doneDrawText = "Eliminar Selección"
+    //$scope.doneDrawText = "Eliminar Selección"
     
     $scope.enableDraw = false;
     $scope.doneDrawingVal = false; 
@@ -103,7 +128,7 @@ angular.module('myApp.controllers', []).
       $scope.selectAlert(ts, $scope.alertName);
 
       $scope.statusList=[];
-      $scope.statusList.push({title: commonMethods.getCurrentTime()+": Nueva alerta creado", desc: "Nueva alerta creada con el nombre:"+ $scope.alertName});
+      $scope.statusList.push({title: commonMethods.getCurrentTime()+$scope.newAlert, desc: $scope.newAlertName+ $scope.alertName});
 
       $scope.alertsArr[ts] = {name: $scope.alertName};
       $scope.alertsArr[ts]["details"] =  {statusList: $scope.statusList};
@@ -218,7 +243,7 @@ angular.module('myApp.controllers', []).
       }
 
       //change UI button status.
-      commonMethods.doneDrawing($scope, "Bloquear selección", "Eliminar selección");
+      commonMethods.doneDrawing($scope, $scope.loDraw, $scope.doneDrawText);
 
     };
 
@@ -258,7 +283,7 @@ angular.module('myApp.controllers', []).
           }
         }
         $scope.towerCoordsLoaded = true;
-        markersOnMap = commonMethods.renderCells($scope.towerCoords, $scope.mapForScope);
+        markersOnMap = commonMethods.renderCells($scope.towerCoords, $scope.mapForScope, null, $scope);
       } else {
         $scope.cellSitesLoaded = false;
       }     
@@ -284,7 +309,7 @@ angular.module('myApp.controllers', []).
       if(nv!=undefined && nv.cgi!=undefined && nv.length!=undefined && nv.msisdns!=undefined){
         //console.log('Time: '+commonMethods.getCurrentTime()+' new value: ' + nv.length);
         if (markersOnMap.length==0) {
-          markersOnMap = commonMethods.renderCells($scope.towerCoords, $scope.mapForScope);  
+          markersOnMap = commonMethods.renderCells($scope.towerCoords, $scope.mapForScope, null, $scope);  
         }
         markersOnMap = commonMethods.updateCell(markersOnMap, nv.cgi, nv.length, nv.msisdns, $scope.mapForScope);
       }
@@ -320,8 +345,8 @@ angular.module('myApp.controllers', []).
 
 
       
-      var statusTitleStr = commonMethods.getCurrentTime() + ": Alerta guardada.";
-      var statusDescStr = "<b>Coordenadas:</b> <ul>"
+      var statusTitleStr = commonMethods.getCurrentTime() + $scope.alertSaved;
+      var statusDescStr = "<b>"+$scope.coordinatesText+"</b> <ul>"
       for (var i = 0; i < len; i++) {
         statusDescStr = statusDescStr.concat("<li>Lat:"+newArr[i].lat+", Lng: "+newArr[i].lng+"</li>");
       }
@@ -331,11 +356,11 @@ angular.module('myApp.controllers', []).
       if($scope.smsContent.Default!=undefined){
         msg = $scope.smsContent.Default;
       }
-      statusDescStr = statusDescStr.concat("<b>Contenido del mensaje:</b><ul><li>"+msg+"</li></ul>");
+      statusDescStr = statusDescStr.concat("<b>"+$scope.messageContentText+"</b><ul><li>"+msg+"</li></ul>");
 
       $scope.statusList.push({title: statusTitleStr,  desc: statusDescStr});
 
-      $scope.modalMessage = "Alerta guardada!";
+      $scope.modalMessage = $scope.alertSavedTitle;
       $scope.showModal = true;
     }
 
@@ -353,7 +378,7 @@ angular.module('myApp.controllers', []).
         if(len>0){
           eval("commonMethods.renderPolygon($scope."+vname+"['details']['latlng'], $scope.mapForScope, polygonOnMap)");
           $scope.doneDrawingVal = false;
-          commonMethods.doneDrawing($scope, "Bloquear selección", "Eliminar selección");
+          commonMethods.doneDrawing($scope, $scope.loDraw, $scope.doneDrawText);
           fetchTowerInformation();
         }
         eval("if($scope."+vname+"['details']!=undefined) { $scope.smsContent = {}; for (var k in $scope."+vname+"['details']['smsContent']) { $scope.smsContent[k] = $scope."+vname+"['details']['smsContent'][k]}}");
@@ -429,17 +454,17 @@ angular.module('myApp.controllers', []).
           var polyLen = coord.length;
           var statusTitleStr = commonMethods.getCurrentTime() + ": Alerta enviada.";
 
-          var statusDescStr = "<b>Contenido del Mensaje:</b> <ul><li>"+$scope.smsContent.Default+"</li></ul>";
+          var statusDescStr = "<b>"+$scope.messageContentText+"</b> <ul><li>"+$scope.smsContent.Default+"</li></ul>";
           
 
 
-          statusDescStr = statusDescStr.concat("<b>Coordenadas:</b><ul>");
+          statusDescStr = statusDescStr.concat("<b>"+$scope.coordinatesText+"</b><ul>");
           for (var l = 0; l < polyLen; l++) {
             statusDescStr = statusDescStr.concat("<li>Lat:"+coord[l].lat()+", Lng: "+coord[l].lng()+"</li>");
           }
           statusDescStr = statusDescStr.concat("</ul><br>");
 
-          statusDescStr = statusDescStr.concat("<b>Conjunto de torres de telefonía móvil participantes en la transmisión de esta alerta:</b><ul>");
+          statusDescStr = statusDescStr.concat("<b>"+$scope.towersInScopeText+"</b><ul>");
 
           var cLen = $scope.towerCoords.length;
           for (var m = 0; m < cLen; m++) {
@@ -448,7 +473,7 @@ angular.module('myApp.controllers', []).
 
           statusDescStr = statusDescStr.concat("</ul>");
 
-          statusDescStr = statusDescStr.concat("<b>MSISDNs en el ámbito:</b><ul>");
+          statusDescStr = statusDescStr.concat("<b>"+$scope.msisdnsInScopeText+"</b><ul>");
 
           var mLen = phoneArr.length;
           for (var n = 0; n < mLen; n++) {
@@ -510,7 +535,7 @@ angular.module('myApp.controllers', []).
           console.log('error');
         })
 
-        $scope.modalMessage = "Alert sending is triggered. Check status tab to view status of alert!";
+        $scope.modalMessage = $scope.alertSendingMessage;
         $scope.showModal = true;        
       });
     }
@@ -536,8 +561,8 @@ angular.module('myApp.controllers', []).
 
     var markersOnMap = [];
 
-    $scope.drawText = "Permitir Dibujo"
-    $scope.doneDrawText = "Bloquear Dibujo"
+    $scope.drawText = $scope.dte;
+    $scope.doneDrawText = $scope.loDraw;
     
     $scope.enableDraw = false;
     $scope.doneDrawingVal = false; 
@@ -640,12 +665,12 @@ angular.module('myApp.controllers', []).
       //both strings are numbers
       var n = Number($scope.centerLat);
       if(!(String(n) === $scope.centerLat && n>-90 && n<90)) {
-        $scope.centerErrors.push("Latitude should be between -90 and +90");
+        $scope.centerErrors.push($scope.coordLatError);
       }
 
       var m = Number($scope.centerLng);
       if(!(String(m) === $scope.centerLng && m>-180 && m<180)) {
-        $scope.centerErrors.push("Longitude should be between -180 and +180")
+        $scope.centerErrors.push($scope.coordLongError)
       }
     }      
 
@@ -659,7 +684,7 @@ angular.module('myApp.controllers', []).
         polygonOnMap = commonMethods.renderPolygon($scope.boundsArr, $scope.mapForScope);
 
         //the render cell sites by calling a service methods
-        markersOnMap = commonMethods.renderCells($scope.cellSitesArr, $scope.mapForScope);
+        markersOnMap = commonMethods.renderCells($scope.cellSitesArr, $scope.mapForScope, null, $scope);
 
         $scope.mapDataLoaded = true;
         $scope.enableDraw = false; 
@@ -693,8 +718,8 @@ angular.module('myApp.controllers', []).
     //if user wants to edit existing definition.
     $scope.editBounds = function (ev) {
       //text of toggle buttons based on the state.
-      $scope.drawText = "Habilitar Dibujar"
-      $scope.doneDrawText = "Bloquear Región"
+      $scope.drawText = $scope.dte
+      $scope.doneDrawText = $scope.loDraw
 
       //these are values to indicate the toggle state of the enable and lock drawing buttons. 
       $scope.doneDrawingVal = false;
@@ -838,18 +863,18 @@ angular.module('myApp.controllers', []).
       //both strings are numbers
       var n = Number($scope.msisdnStart);
       if(!(String(n) === $scope.msisdnStart && n>999999999 && n<10000000000)) {
-        $scope.subErrors.push("El comienzo de un rango de MSISDNs debe ser un número de 10 cifras.")
+        $scope.subErrors.push($scope.rangeLenError)
       }
 
       var m = Number($scope.msisdnEnd);
       if(!(String(m) === $scope.msisdnEnd && n>999999999 && n<10000000000)) {
-        $scope.subErrors.push("El fin de un rango de MSISDNs debe ser un número de 10 cifras.")
+        $scope.subErrors.push($scope.rangeLenError)
       }
 
 
       //start number is less than end number
       if(n>m) {
-        $scope.subErrors.push("El MSISDN de comienzo de un rango de MSISDNs debe ser menor que el MSISDN final.") 
+        $scope.subErrors.push($scope.rangeError) 
       }
     }      
 
@@ -862,7 +887,7 @@ angular.module('myApp.controllers', []).
       for (var i = $scope.msisdnStart; i<=$scope.msisdnEnd; i++) {
           arr[i] = {};
           arr[i]["messages"]=[];
-          arr[i]["messages"].push({message: "Bienvenido! Su móvil está conectado a la red.", time: commonMethods.getCurrentTime()});
+          arr[i]["messages"].push({message: $scope.welcomeMessage, time: commonMethods.getCurrentTime()});
           arr[i]["loc"] = [];
           arr[i]["loc"].push({cgi: "0", time: commonMethods.getCurrentTime()});
           arr[i]["profile"] = {oi: true, lang: "Default", validNum: true};
@@ -910,7 +935,7 @@ angular.module('myApp.controllers', []).
       if(nv!=undefined && nv.cgi!=undefined && nv.length!=undefined && $scope.boundsLoaded){
         //console.log('Time: '+commonMethods.getCurrentTime()+' new value: ' + nv.length);
         if (markersOnMap.length==0) {
-          markersOnMap = commonMethods.renderCells($scope.cellSitesArr, $scope.mapForScope);  
+          markersOnMap = commonMethods.renderCells($scope.cellSitesArr, $scope.mapForScope, null, $scope);  
         }
         var subs = nv.msisdns;
         if(subs==undefined) {
@@ -987,7 +1012,7 @@ angular.module('myApp.controllers', []).
   }).
   controller('simController', function ($scope, dataMethods, commonMethods, $timeout) {
     //text for simulate button
-    $scope.simulationStateText = "Comienzo Simulación";
+    $scope.simulationStateText = $scope.startSimulationText;
     $scope.simulationState = false;
 
     var msisdnReady = false;
@@ -1025,7 +1050,7 @@ angular.module('myApp.controllers', []).
 
     }
     
-    $scope.simulationLogText = "A la espera de comenzar la simulación…";
+    $scope.simulationLogText = $scope.simulationStarting;
 
     function triggerLocationChange() {
       console.log('starting location change');
@@ -1056,10 +1081,10 @@ angular.module('myApp.controllers', []).
       for (var i in $scope.msisdnListArr) {
         var c = commonMethods.getRandomInt(0, noOfCells-1);
         var ts = commonMethods.getCurrentTime();
-        $scope.simulationLogText=$scope.simulationLogText.concat(ts+': El MSISDN: '+i+' está siendo asignada a la celda: ' + c+"\n");
+        $scope.simulationLogText=$scope.simulationLogText.concat(ts+$scope.theMsisdnText+i+$scope.isBeingAssignedTo+ c+"\n");
         $scope.msisdnListArr[i]["loc"].push({cgi: ""+c, time: ts});
         $scope.cellSitesArr[c]["msisdns"].push(i);
-        $scope.simulationLogText=$scope.simulationLogText.concat(ts+': La celda '+c+' ahora contiene estos MSISDNs: ' + $scope.cellSitesArr[c]["msisdns"]+"\n");
+        $scope.simulationLogText=$scope.simulationLogText.concat(ts+ $scope.theCellId +c+$scope.nowContainsMsisdns+ $scope.cellSitesArr[c]["msisdns"]+"\n");
         $scope.cellSitesArr[c]["length"]=$scope.cellSitesArr[c]["msisdns"].length;
         $scope.cellSitesArr[c]["cgi"]=c;
       }
@@ -1069,10 +1094,10 @@ angular.module('myApp.controllers', []).
     $scope.setSimulationState =function (ev) {
       if($scope.simulationState) {
         $scope.simulationState = false;
-        $scope.simulationStateText = "Comienzo Simulación";
+        $scope.simulationStateText = $scope.startSimulationText;
       } else {
         $scope.simulationState = true;
-        $scope.simulationStateText = "Detener la Simulación";
+        $scope.simulationStateText = $scope.stopSimulationText;
       }
     }
     $scope.editMode = false;
@@ -1085,7 +1110,7 @@ angular.module('myApp.controllers', []).
         $scope.errors = "";
         $scope.editMode = false;  
       } else {
-        $scope.errors = "El Valor del Intervalo de Simulación debe ser por lo menos 30 segs.";
+        $scope.errors = $scope.rangeError;
       }
       
     }
@@ -1827,20 +1852,6 @@ angular.module('myApp.controllers', []).
     $scope.voice = {};
 
 
-    $scope.log = "";
-    var groupLogUrl = "https://versapp.firebaseio.com/grouplog"
-    $scope.groupLog = {};
-    dataMethods.getAngularPromise(groupLogUrl, $scope, "groupLog").then(function() {
-      createLog();
-    });
-
-    function createLog() {
-      $scope.log = "";
-      for (var n in $scope.groupLog) {
-        $scope.log = $scope.log + n + ": " + $scope.groupLog[n] + "\n";
-      }
-    }
-
 
     
     var selectedGroups = [];
@@ -1908,7 +1919,7 @@ angular.module('myApp.controllers', []).
 
       //post request to send sms and voice to sms list and voice list
       $http.post('/sendgroupalert', data).success(function(){
-        $scope.groupLog[commonMethods.getCurrentTime()] = "Se envió una alerta grupal a los siguientes grupos: " + groups;
+        $scope.groupLog[commonMethods.getCurrentTime()] = $scope.groupAlertSent + groups;
         createLog();
         console.log('success');
       }).error(function(){
@@ -1929,19 +1940,6 @@ angular.module('myApp.controllers', []).
     });
 
     $scope.alert = "";
-    $scope.log = "";
-    var radioLogUrl = "https://versapp.firebaseio.com/radiolog"
-    $scope.radiolog = {};
-    dataMethods.getAngularPromise(radioLogUrl, $scope, "radiolog").then(function() {
-      createLog();
-    });
-
-    function createLog() {
-      $scope.log = "";
-      for (var n in $scope.radiolog) {
-        $scope.log = $scope.log + n + ": " + $scope.radiolog[n] + "\n";
-      }
-    }
     
     var polygonCoords = [];
     var polygon = new google.maps.Polygon();
@@ -1987,7 +1985,7 @@ angular.module('myApp.controllers', []).
 
       var data = {message: $scope.alert + " " + $scope.alert + " " + $scope.alert + " " + $scope.alert, numbers: num};
       $http.post('/sendradioalert', data).success(function(d){
-        $scope.radiolog[commonMethods.getCurrentTime()] = "Se envió un mensaje de alerta a las siguientes emisoras de radio: " + stations;
+        $scope.radiolog[commonMethods.getCurrentTime()] = $scope.radioAlertSent + stations;
         createLog();
       }).error(function(d){
         console.log('error');
@@ -2092,22 +2090,6 @@ angular.module('myApp.controllers', []).
 
 
 
-    $scope.log = "";
-    var tvLogUrl = "https://versapp.firebaseio.com/tvlog"
-    $scope.tvlog = {};
-    dataMethods.getAngularPromise(tvLogUrl, $scope, "tvlog").then(function() {
-      createLog();
-    });
-
-    function createLog() {
-      $scope.log = "";
-      for (var n in $scope.tvlog) {
-        $scope.log = $scope.log + n + ": " + $scope.tvlog[n] + "\n";
-      }
-    }
-
-
-
     var tvList = {};
     $scope.createTvAlertList = function(tv, key) {
       if(tv) {
@@ -2133,7 +2115,7 @@ angular.module('myApp.controllers', []).
       }
 
       if(chosenTvs!=""){
-        $scope.tvlog[commonMethods.getCurrentTime()] = "Se envió un mensaje de alerta a los siguientes operadores de TV: " + chosenTvs;
+        $scope.tvlog[commonMethods.getCurrentTime()] = $scope.tvAlertSent + chosenTvs;
         createLog();
       }
 
@@ -2174,4 +2156,63 @@ angular.module('myApp.controllers', []).
     $scope.tvArr = {};
     var tvUrl = "https://versapp.firebaseio.com/tv";
     dataMethods.getAngularPromise(tvUrl, $scope, "tvArr");
+  }).  
+  controller('headerController', function ($scope, $location) {
+    $scope.currTime = new Date();
+    $scope.logout = function() {
+      $location.path('/login');
+    }
+    $scope.linkClick = function() {
+      console.log('link clicked');
+    }
+  }).  
+  controller('gasController', function ($scope, dataMethods) {
+    $scope.log = "";
+    var groupLogUrl = "https://versapp.firebaseio.com/grouplog"
+    $scope.groupLog = {};
+    dataMethods.getAngularPromise(groupLogUrl, $scope, "groupLog").then(function() {
+      createLog();
+    });
+
+    function createLog() {
+      $scope.log = "";
+      for (var n in $scope.groupLog) {
+        $scope.log = $scope.log + n + ": " + $scope.groupLog[n] + "\n";
+      }
+    }
+
+  }).  
+  controller('tasController', function ($scope, dataMethods) {
+
+    $scope.log = "";
+    var tvLogUrl = "https://versapp.firebaseio.com/tvlog"
+    $scope.tvlog = {};
+    dataMethods.getAngularPromise(tvLogUrl, $scope, "tvlog").then(function() {
+      createLog();
+    });
+
+    function createLog() {
+      $scope.log = "";
+      for (var n in $scope.tvlog) {
+        $scope.log = $scope.log + n + ": " + $scope.tvlog[n] + "\n";
+      }
+    }
+
+  }).  
+  controller('rasController', function ($scope, dataMethods) {
+
+    $scope.log = "";
+    var radioLogUrl = "https://versapp.firebaseio.com/radiolog"
+    $scope.radiolog = {};
+    dataMethods.getAngularPromise(radioLogUrl, $scope, "radiolog").then(function() {
+      createLog();
+    });
+
+    function createLog() {
+      $scope.log = "";
+      for (var n in $scope.radiolog) {
+        $scope.log = $scope.log + n + ": " + $scope.radiolog[n] + "\n";
+      }
+    }
+
   });

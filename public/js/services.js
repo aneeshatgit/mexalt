@@ -9,6 +9,7 @@ angular.module('myApp.services', []).
   value('version', '0.1').
   factory('commonMethods', function(){
   	var factory = {};
+    factory.selectedLink = null;
 
     factory.getRandomColor = function() {
       var letters = '0123456789ABCDEF'.split('');
@@ -23,20 +24,22 @@ angular.module('myApp.services', []).
       //ev.preventDefault();
       if(scope.enableDraw){
         scope.enableDraw = false;
-        scope.drawText = "Habilitar selección" 
+        scope.drawText = scope.dte;
+        //"Habilitar selección" 
       } else {
         scope.enableDraw = true;
-        scope.drawText = "Deshabilitar selección" 
+        scope.drawText = scope.dtd;
+        //"Deshabilitar selección" 
       }
   	}
 
     factory.doneDrawing = function(scope, lockText, unLockText) {
      if(scope.doneDrawingVal){
       scope.doneDrawingVal = false;
-      (lockText==undefined) ? scope.doneDrawText = "Bloquear selección" : scope.doneDrawText = lockText;
+      (lockText==undefined) ? scope.doneDrawText = scope.loDraw : scope.doneDrawText = lockText;
      } else {
       scope.doneDrawingVal = true;
-      (unLockText==undefined) ? scope.doneDrawText = "Desbloquear selección" : scope.doneDrawText = unLockText;
+      (unLockText==undefined) ? scope.doneDrawText = scope.unLoDraw : scope.doneDrawText = unLockText;
      }
     };
 
@@ -119,7 +122,7 @@ angular.module('myApp.services', []).
       return poly;
     }
 
-    factory.renderCells = function(coordinates, map, content) {
+    factory.renderCells = function(coordinates, map, content, scope) {
       var markers = {};
       var content = {};
       var info = new google.maps.InfoWindow();
@@ -145,7 +148,7 @@ angular.module('myApp.services', []).
         }
 
 
-        content[coordinates[i].cgi]="Cell Id: "+coordinates[i].cgi+"<br>"+"<p>No subscribers at this site.</p>";
+        content[coordinates[i].cgi]="Cell Id: "+coordinates[i].cgi+"<br>"+"<p>"+scope.noSubs+"</p>";
         
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
@@ -174,7 +177,7 @@ angular.module('myApp.services', []).
       }
 
 
-      flag ? markersAndInfo.content[idx] = "Cell Id: "+idx+"<br>"+ numStr : markersAndInfo.content[idx] = "Cell Id: "+idx+"<br>"+"<p>No abonados a este sitio.</p>";
+      flag ? markersAndInfo.content[idx] = "Cell Id: "+idx+"<br>"+ numStr : markersAndInfo.content[idx] = "Cell Id: "+idx+"<br>"+"<p>"+scope.noSubs+"</p>";
 
       //if there are no msisdns in this cell. Hide this cell.
       if(msisdns.length==0) {

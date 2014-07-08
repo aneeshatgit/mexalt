@@ -1,35 +1,43 @@
+include navbar
 div.row
 	audio(id="id1" audio-play)
 		source(src="sounds/sms.mp3" type="audio/mpeg")
 	form(role="form" class="form-horizontal col-lg-4")
 		div(class="form-group")
-			label MSISDN: 
+			label #{__('MSISDN: ')} 
 			&nbsp;
 			&nbsp;
 			input(type='text' ng-model='msisdn')
 			&nbsp;
 			br
 			br
-			button(type="button" class="btn btn-primary" ng-click="getMessage($event)") Recibir mensajes
+			button(type="button" class="btn btn-primary" ng-click="getMessage($event)") #{__('Get Messages')} 
+			//Recibir mensajes
 			&nbsp;
-			button(type="button" class="btn btn-primary" ng-click="getLocation($event)") Recibe actualizaciones de ubicación
+			button(type="button" class="btn btn-primary" ng-click="getLocation($event)") #{__('Get Location Updates')} 
+			//Recibe actualizaciones de ubicación
 	div.col-lg-6
 		div(ng-if="showMessages && !noMessages")
-			h2 Mensajes para {{msisdnProxy}}
+			h2 #{__('Messages for')} {{msisdnProxy}} 
+			//Mensajes para {{msisdnProxy}}
 		div(ng-if="noMessages")
-			h2 No hay mensajes para {{msisdnProxy}}
+			h2 h2 #{__('No messages for')} {{msisdnProxy}} 
+			//No hay mensajes para {{msisdnProxy}}
 		div.imgage-container(ng-if="showMessages && !noMessages")
 			img.image(src='images/iphone2.png')
 			div.text-content
 				div.sms-background(ng-repeat="item in msgList | reverse") 
-					b ALERTA:
+					b #{__('Alert: ')} 
+					//ALERTA:
 					{{item.time}}: {{item.message}}
 		div(ng-if="showLocations && !noLocUpdates")
-			h2 Ubicación actualizaciones para {{msisdnProxy}}
+			h2 #{__('Location updates for')}  {{msisdnProxy}}
+			//Ubicación actualizaciones para {{msisdnProxy}}
 		div(ng-if="noLocUpdates")
-			h2 No hay actualizaciones de ubicación para {{msisdnProxy}}
+			h2 #{__('No location updates for')}  {{msisdnProxy}}
+			//No hay actualizaciones de ubicación para {{msisdnProxy}}
 		div.scroll-div(ng-if="showLocations && !noLocUpdates")
 			ul
 				li(ng-repeat="item in locList | reverse") 
 					b {{item.time}}:
-					CGI: {{item.cgi}}
+					#{__('CGI: ')}  {{item.cgi}}

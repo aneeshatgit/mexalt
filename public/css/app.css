@@ -1,11 +1,7 @@
 /* app css stylesheet */
-body {
-  padding-top: 60px;
-  background-color:#F0F1F2; 
-  background-image: url('../images/world1.png'); 
-  background-repeat:none; 
-  background-attachment: scroll; 
-  background-position: center top; 
+.loginBody {
+  background: url('../images/LogInPage_MapBG.png') no-repeat fixed center;
+  padding: 30px;
 }
 
 .menu {
@@ -42,7 +38,7 @@ body {
   height: 375px;
 }
 .google-radio-map{
-  width: 800px;
+  width: 960px;
   height: 400px;
 }
 .google-alert-map {
@@ -192,5 +188,98 @@ body {
   right: 5px;
 }
 
+.btn-hp {
+  background: #0376d1;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 13px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  display: inline-block;
+  text-decoration: none;
+  border: 0;
+  font-family: Arial,Helvetica,sans-serif;
+  cursor: pointer;
+  text-align: center;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.btn-hs {
+  background: #565656;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 13px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  display: inline-block;
+  text-decoration: none;
+  border: 0;
+  font-family: Arial,Helvetica,sans-serif;
+  cursor: pointer;
+  text-align: center;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.langText {
+  font-size: smaller;
+}
+
+
+#lang label {
+  margin-top: 7px;
+}
+
+#lang img {
+  width: 30px;
+  height: 30px; 
+}
+
+#lang .option {
+  text-align: center;
+}
+
+.langSelected {
+  background-color: gainsboro;
+}
+
+#header {
+  font-family: sans-serif;
+  font-size: small;
+  font-weight: 600;
+  color: gray;
+}
+
+#header .linkText {
+  color: #0376d1;
+  cursor: pointer;
+}
+
+#navbar {
+  background-color: #e3e3e3; 
+  border: solid 1px #0376d1;
+}
+
+.btnMainNav {
+  border-radius: 0px;
+  background-color: #e3e3e3; 
+  font-size: smaller;
+}
+
+.btnMainNav:hover {
+  background-color: #0376d1;
+}
+
+.btnMainNav .active {
+  background-color: #0376d1;
+  font-color: white;
+}
 
 

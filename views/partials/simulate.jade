@@ -1,15 +1,20 @@
-div(ng-controller="simController" class="col-lg-12")
+include navbar
+div(ng-controller="simController" class="col-lg-12", ng-init="theMsisdnText='#{__('The MSISDN: ')}'; startSimulationText='#{__('Start Simulation')}';
+	isBeingAssignedTo=#{__('is being assigned to: ')}'; theCellId='#{__('The Cell Id ')}'; nowContainsMsisdns='#{__('now contains these MSISDNS: ')}';
+	stopSimulationText='#{__('Stop Simulation')}'; rangeError='#{__('The value range of simulation must be at least 30 secs.')}';
+	")
 	div
 		form(role="form" class="form-horizontal")
 			div(class="form-group")
-				label Intervalo de Simulación: 
+				label #{__('Simulation Interval: ')}
+				//Intervalo de Simulación: 
 				&nbsp;
 				&nbsp;
 				label(ng-class="{hidden: editMode}") {{simulationInterval}}
 				input(type='text' ng-model='simulationInterval' ng-class="{hidden: !editMode}")
 				&nbsp;
 				{{errors}}
-				&nbsp; secs 
+				&nbsp; #{__('seconds')}
 				&nbsp;
 				span(class="glyphicon glyphicon-edit" ng-click="editSimSettings($event)")
 				&nbsp;
@@ -19,14 +24,11 @@ div(ng-controller="simController" class="col-lg-12")
 
 
 	div
-		label Registro Historico:	
+		label #{__('Simulation Log: ')}
+		//Registro Historico:	
 		br
 		textarea(readonly adjust-scroll rows="20" ng-model="simulationLogText" class="col-lg-12 log-text") 
 		br
 		br
-		button(type="button" class="btn btn-primary" ng-click="simulationLogText=''") Eliminar Registro Historico
-
-		//input(type='text' class="col-lg-12" ng-model="simulationLogText") 
-
-
-
+		button(type="button" class="btn btn-primary" ng-click="simulationLogText=''") #{__('Clear Log')}
+		//Eliminar Registro Historico

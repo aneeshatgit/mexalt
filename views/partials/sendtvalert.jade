@@ -1,24 +1,24 @@
-.col-md-6
+include navbar
+.col-md-10.col-md-offset-1(ng-init="tvAlertSent='#{__('An alert message was sent to the following TV operators: ')}'")
 	.row
-		label Mensaje de Alerta: 
+		label #{__('Alert Message: ')}
+		//Mensaje de Alerta: 
 		br
 		textarea.col-md-12(rows="5" ng-model="alert") 
 	.row
 		table(class="table table-hover")
 			thead
-				th Nombre del Proueedor de servicio
+				th #{__('Service Provider')} 
+				//Nombre del Proueedor de servicio
 				th
 			tbody
 				tr(ng-if="tvArr=={}") 
-					td Hay operadores que se encuentran
+					td #{__('No service providers defined')}
+					//Hay operadores que se encuentran
 				tr(ng-repeat="(key, tv) in tvArr" ng-click="selectGroup(key, tv.name)")
 					td {{tv.name}}
 					td 
 						input(type='checkbox' ng-model="selected[key]" ng-click='createTvAlertList(selected[key], key)')
 	.row
-		button.btn.btn-danger(ng-click='sendTVAlert()' ng-class="{disabled: (alert.trim()=='' || numOfTvs==0)}") Enviar Alerta por TV
-.col-md-5.col-md-offset-1
-	.row
-		label Registro de alertas:
-		br
-		textarea(readonly adjust-scroll rows="20" ng-model="log" class="col-lg-11 log-text")
+		button.btn.btn-hp(ng-click='sendTVAlert()' ng-class="{disabled: (alert.trim()=='' || numOfTvs==0)}") #{__('Send TV Alert')}
+		//Enviar Alerta por TV

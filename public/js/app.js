@@ -7,9 +7,10 @@ angular.module('myApp', [
   'myApp.filters',
   'myApp.services',
   'myApp.directives',
-  'firebase'
+  'firebase',
+  'ngCookies'
 ]).
-config(function ($routeProvider, $locationProvider) {
+config(function ($routeProvider, $locationProvider, $cookiesProvider) {
   $routeProvider.
     when('/am', {
       templateUrl: 'partials/createalert',
@@ -78,8 +79,24 @@ config(function ($routeProvider, $locationProvider) {
     when('/secret', {
       templateUrl: 'partials/secretlinks'
     }).
+    when('/login', {
+      templateUrl: 'partials/login',
+      controller: 'loginController'
+    }).
+    when('/gas', {
+      templateUrl: 'partials/groupstatus',
+      controller: 'gasController'
+    }).
+    when('/tas', {
+      templateUrl: 'partials/tvstatus',
+      controller: 'tasController'
+    }).
+    when('/ras', {
+      templateUrl: 'partials/radiostatus',
+      controller: 'rasController'
+    }).
     otherwise({
-      redirectTo: '/am'
+      redirectTo: '/login'
     });
 
   $locationProvider.html5Mode(true);

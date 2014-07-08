@@ -1,14 +1,14 @@
 div.row
 	form.form-horizontal.col-lg-3(role="form")
 		div.form-group
-			label MSISDN: 
+			label #{__('UMS Alert: ')} 
 			&nbsp;
 			&nbsp;
 			input(type='text' ng-model='msisdn')
 			&nbsp;
 			br
 			br
-			button(type="button" class="btn btn-primary" ng-click="getProfile($event)") Get Profile
+			button(type="button" class="btn btn-primary" ng-click="getProfile($event)") #{__('Get Profile')}
 	div.col-lg-9
 		div(ng-if="getClicked")
 			div(ng-if="profileExists")

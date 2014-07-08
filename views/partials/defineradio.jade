@@ -1,22 +1,27 @@
+include navbar
 .col-md-2
 	.row
 		form(role="form" class="form-horizontal col-lg-12")
 			div(class="form-group")
-				label Nombre de Emisora de Radio: 
+				label #{__('Radio Station Name: ')}
+				//Nombre de Emisora de Radio: 
 				br
 				input(type='text' ng-model='rsName')
 				br
 				br
-				button(type="button" class="btn btn-primary" ng-click="addStation()") Añadir Emisora
+				button(type="button" class="btn btn-primary" ng-click="addStation()") #{__('Add Station')}
+				//Añadir Emisora
 	.row
 		div(class="col-md-12")
 			table(class="table table-hover")
 				thead
-					th Nombre de Emisora
+					th #{__('Station Name')}
+					//Nombre de Emisora
 					th
 				tbody
 					tr(ng-if="radioArr=={}") 
-						td No se encontraron emisoras
+						td #{__('No stations defined')} 
+						//No se encontraron emisoras
 					tr(ng-repeat="(key, radio) in radioArr" ng-click="selectRadio(key, radio.name, $event)" ng-class="{warning: selectedRows.indexOf(key)>-1}")
 						//td {{key}}
 						td {{radio.name}}
@@ -24,13 +29,16 @@
 							span(class="glyphicon glyphicon-minus-sign" ng-click="deleteRadio(key)")
 .col-md-10(ng-class='{hidden: !radioDetailsShown}' ng-init="notifyHide=true")
 	.row.alert.alert-success(ng-class='{hidden: notifyHide}')
-		| Emisora de Radio guardada con éxito
+		| #{__('Radio station successfully saved.')} 
+		//Emisora de Radio guardada con éxito
 	.row
 		.col-md-6
-			| Coordinadas: 
+			| #{__('Coordinates: ')} 
+			//Coordinadas: 
 			input(type='text' ng-model="coords" disabled)
 		.col-md-6
-			| Número de Teléfono: 
+			| #{__('Telephone Number: ')} 
+			//Número de Teléfono: 
 			input(type='text' ng-model='phoneNumber')
 	.row(style="margin-top: 10px")
 		div(hello-maps="" latitude="24" longitude="-102.5" class="google-alert-map" zoom="7")

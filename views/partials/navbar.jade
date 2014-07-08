@@ -1,0 +1,49 @@
+.top
+  .row
+    #header(ng-controller='headerController')
+      .logo(style="float: left; margin-left: 30px")
+        img(src='/images/logo-header.jpg')
+      .info(style="float: right; margin-right: 40px")
+        .row
+          span #{__('Welcome, ')} 
+          span.linkText Demo User 
+          span | #{__('Organization')} : 
+          span.linkText UMS 
+          span | 
+          span.linkText(ng-click='logout()') #{__('Logout')}
+        .row
+          span Current Time: {{currTime | date:'dd-MM-yyyy, HH:mm'}}
+  .row
+    #navbar.col-md-12
+      span
+        button.btn.dropdown-toggle.btnMainNav(data-toggle='dropdown') #{__('Send Alert')} 
+          span.caret
+        ul.dropdown-menu(role='menu')
+          li
+            a(href='sga') #{__('Group Alert')} 
+          li
+            a(href='am') #{__('Location Based Mobile Alert')} 
+          li
+            a(href='sra') #{__('Radio Alert')} 
+          li
+            a(href='sta') #{__('TV Alert')} 
+      span
+        button.btn.dropdown-toggle.btnMainNav(data-toggle='dropdown') #{__('Alert Status')} 
+          span.caret
+        ul.dropdown-menu(role='menu')
+          li
+            a(href='gas') #{__('Group Alert Status')} 
+          li
+            a(href='pas') #{__('Location Based Mobile Alert Status')} 
+          li
+            a(href='ras') #{__('Radio Alert Status')} 
+          li
+            a(href='tas') #{__('TV Alert Status')} 
+      span
+        button.btn.dropdown-toggle.btnMainNav(data-toggle='dropdown') #{__('Alert Viewer')} 
+          span.caret
+        ul.dropdown-menu(role='menu')
+          li
+            a(href='vam') #{__('Location Based Mobile Alert Viewer')} 
+          li
+            a(href='tvl') #{__('TV Alert Viewer')} 

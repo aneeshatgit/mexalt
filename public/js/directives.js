@@ -8,6 +8,14 @@ angular.module('myApp.directives', []).
       elm.text(version);
     };
   }).
+  directive('showModal', function (version) {
+    return function(scope, elm, attrs) {
+      elm.modal({
+        show: true,
+        backdrop: false
+      })
+    };
+  }).
   directive('helloMaps', function ($timeout) {
 	  return {
  	    link: function (scope, elem, attrs) {
@@ -101,9 +109,16 @@ angular.module('myApp.directives', []).
         }
       };
   }).
-  directive('navPillsActivation', function($location) {
+  directive('navPillsActivation', function($location, commonMethods) {
       return {
         link: function(scope, element, attr) {
+          $(element[0]).find("a").each(function(){
+            $(this).parent().removeClass('active');
+            if($(this).attr('selection')==commonMethods.selectedLink) {
+              $(this).parent().addClass('active');
+            }
+          });
+
           scope.$on('$locationChangeStart', function(next, current) { 
             var path = $location.path();
             var h = path.replace("/","");
@@ -111,12 +126,7 @@ angular.module('myApp.directives', []).
               h = 'am';
             }
 
-            $(element[0]).find("a").each(function(){
-              $(this).parent().removeClass('active');
-              if($(this).attr('href')==h) {
-                $(this).parent().addClass('active');
-              }
-            });
+            commonMethods.selectedLink = h;
           });
         }
       };

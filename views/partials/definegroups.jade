@@ -1,21 +1,26 @@
+include navbar
 .col-md-2
 	.row
 		form(role="form" class="form-horizontal col-lg-12")
 			div(class="form-group")
-				label Nombre del Grupo: 
+				label #{__('Group Name: ')}
+				//Nombre del Grupo: 
 				br
 				input(type='text' ng-model='groupName')
 				br
 				br
-				button(type="button" class="btn btn-primary" ng-click="addGroup()") Adicionar Grupo
+				button(type="button" class="btn btn-primary" ng-click="addGroup()") #{__('Add Group')}
+				//Adicionar Grupo
 	.row
 		table(class="table table-hover")
 			thead
-				th Nombre del Grupo
+				th #{__('Group Name')} 
+				//Nombre del Grupo
 				th
 			tbody
 				tr(ng-if="groupArr=={}") 
-					td No se encontraron Grupos
+					td #{__('No groups defined')} 
+					//No se encontraron Grupos
 				tr(ng-repeat="(key, group) in groupArr" ng-click="selectGroup(key, group.name)" ng-class="{warning: selectedRows.indexOf(key)>-1}")
 					//td {{key}}
 					td {{group.name}}
@@ -24,25 +29,32 @@
 .col-md-9.col-md-offset-1(ng-class='{hidden: !showGroupDetails}')
 	.row(ng-if="selectedRows[1]!=null")
 		h4(style="color: grey")
-			| Detalles de {{selectedRows[1]}}
+			| #{__('Details')} {{selectedRows[1]}}
+			//Detalles de {{selectedRows[1]}}
 	.row
 		.col-md-4
-			| Nombre: 
+			| #{__('Name')}
+			//Nombre: 
 			input(type='text' enabled="false" ng-model="groupItem.name")
 		.col-md-4
-			| # Contacto: 
+			| #{__('Contant #')}
+			//# Contacto: 
 			input(type='text' ng-model='groupItem.contact')
 		.col-md-3
-			button(type="button" class="btn btn-success" ng-click="addGroupItem()") Adicionar Miembro
+			button(type="button" class="btn btn-success" ng-click="addGroupItem()") #{__('Add Member')}
+			//Adicionar Miembro
 	.row
 		table(class="table table-hover")
 			thead
-				th Nombre
-				th No de Contacto
+				th #{__('Name')} 
+				//Nombre
+				th #{__('Contact Number')} 
+				//No de Contacto
 				th
 			tbody
 				tr(ng-if="groupItemsArr==[]") 
-					td No se han definido contactos
+					td #{__('No contacts defined')} 
+					//No se han definido contactos
 				tr(ng-repeat="item in groupItemsArr")
 					td {{item.name}}
 					td {{item.contact}}
