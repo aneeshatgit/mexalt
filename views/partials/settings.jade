@@ -1,28 +1,24 @@
 include navbar
-div.div-mar-pad.row(ng-init="dte='#{__('Enable Drawing')}'; dtd='#{__('Disable Drawing')}'; loDraw='#{__('Lock Drawing')}'; 
-	unLoDraw='#{__('Disable Drawing')}'; coordLatError='#{__('Latitude should be between -90 and +90')}'; 
-	coordLongError='#{__('Longitude should be between -180 and +180')}; rangeLenError='#{__('Numbers must be 10 digits')}';
-	rangeError='#{__('Start number must be lower than end number')}'; welcomeMessage='#{__('Welcome! Your phone is now connected to the network')};
-	simulationStarting='#{__('Waiting to start simulation...')}'; ")
+div.div-mar-pad.row(ng-init="dte='#{__('Enable Drawing')}'; dtd='#{__('Disable Drawing')}';")
+	span(ng-init="loDraw='#{__('Lock Drawing')}'; unLoDraw='#{__('Disable Drawing')}';") 
+	span(ng-init="coordLatError='#{__('Latitude should be between -90 and +90')}';") 
+	span(ng-init="coordLongError='#{__('Longitude should be between -180 and +180')};")
+	span(ng-init="rangeLenError='#{__('Numbers must be 10 digits')}';")
+	span(ng-init="rangeError='#{__('Start number must be lower than end number')}';") 
+	span(ng-init="welcomeMessage='#{__('Welcome! Your phone is now connected to the network')};")
+	span(ng-init="simulationStarting='#{__('Waiting to start simulation...')}'; ")
 	div(class="col-lg-8")
 		h4 #{__('Define Geographical Area')} 
-		//Seleccionar Area Geografica
 			span.glyphicon.glyphicon-question-sign(tooltip-control="#{__('This will be the boundary within which alerts can be sent.')}")
 		div(hello-maps="" latitude="24" longitude="-102.5" class="google-map" zoom="8")
 		br
 		div(class='row')
 			p(class='col-lg-4') #{__('Drawing Mode: ')} 
-			//Actual modo de dibujo: 
 				label(ng-if="!enableDraw") #{__('Disabled')} 
-				//Deshabilitado
 				label(ng-if="enableDraw") #{__('Enabled')} 
-				//Habilitado
 			p(class='col-lg-4') #{__('Lock Mode: ')} 
-			//Actual mode de bloqueo: 
 				label(ng-if="!doneDrawingVal") #{__('Unlocked')} 
-				//Desbloqueado
 				label(ng-if="doneDrawingVal") #{__('Locked')} 
-				//Bloqueado 
 		br
 		button(type="button" class="btn btn-primary" ng-click="toggleDrawing($event)" ng-class="{disabled: doneDrawingVal, hidden: mapDataLoaded}" tooltip-control="#{__('This button will enable or disable drawing on the map. Ensure the map is in Enabled Mode to start drawing.')}") {{drawText}}
 		&nbsp;

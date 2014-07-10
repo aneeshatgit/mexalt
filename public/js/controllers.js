@@ -1012,7 +1012,7 @@ angular.module('myApp.controllers', []).
   }).
   controller('simController', function ($scope, dataMethods, commonMethods, $timeout) {
     //text for simulate button
-    $scope.simulationStateText = $scope.startSimulationText;
+    //$scope.simulationStateText = $scope.startSimulationText;
     $scope.simulationState = false;
 
     var msisdnReady = false;
@@ -1050,7 +1050,7 @@ angular.module('myApp.controllers', []).
 
     }
     
-    $scope.simulationLogText = $scope.simulationStarting;
+    //$scope.simulationLogText = $scope.simulationStarting;
 
     function triggerLocationChange() {
       console.log('starting location change');

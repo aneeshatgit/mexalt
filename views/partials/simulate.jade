@@ -1,13 +1,15 @@
 include navbar
-div(ng-controller="simController" class="col-lg-12", ng-init="theMsisdnText='#{__('The MSISDN: ')}'; startSimulationText='#{__('Start Simulation')}';
-	isBeingAssignedTo=#{__('is being assigned to: ')}'; theCellId='#{__('The Cell Id ')}'; nowContainsMsisdns='#{__('now contains these MSISDNS: ')}';
-	stopSimulationText='#{__('Stop Simulation')}'; rangeError='#{__('The value range of simulation must be at least 30 secs.')}';
-	")
+div(ng-controller="simController" class="col-lg-12", ng-init="theMsisdnText='#{__('The MSISDN: ')}';")
+	span(ng-init="startSimulationText='#{__('Start Simulation')}'; simulationStateText='#{__('Start Simulation')}'")
+	span(ng-init="isBeingAssignedTo='#{__('is being assigned to: ')}'; theCellId='#{__('The Cell Id ')}';")
+	span(ng-init="nowContainsMsisdns='#{__('now contains these MSISDNS: ')}';")
+	span(ng-init="stopSimulationText='#{__('Stop Simulation')}';") 
+	span(ng-init="rangeError='#{__('The value range of simulation must be at least 30 secs.')}';")
+	span(ng-init="simulationLogText='#{__('Waiting for simulation to start...')}'")
 	div
 		form(role="form" class="form-horizontal")
 			div(class="form-group")
 				label #{__('Simulation Interval: ')}
-				//Intervalo de Simulación: 
 				&nbsp;
 				&nbsp;
 				label(ng-class="{hidden: editMode}") {{simulationInterval}}
@@ -25,10 +27,8 @@ div(ng-controller="simController" class="col-lg-12", ng-init="theMsisdnText='#{_
 
 	div
 		label #{__('Simulation Log: ')}
-		//Registro Historico:	
 		br
 		textarea(readonly adjust-scroll rows="20" ng-model="simulationLogText" class="col-lg-12 log-text") 
 		br
 		br
 		button(type="button" class="btn btn-primary" ng-click="simulationLogText=''") #{__('Clear Log')}
-		//Eliminar Registro Historico
